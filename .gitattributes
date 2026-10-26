@@ -1,0 +1,15 @@
+* text=auto
+
+# Documentos e planilhas: versionados como binários (sem diff de texto)
+*.docx binary
+*.doc  binary
+*.xlsx binary
+*.xlsm binary
+*.pdf  binary
+*.pod  binary
+*.png  binary
+*.jpg  binary
+
+# Scripts do Windows mantêm CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf

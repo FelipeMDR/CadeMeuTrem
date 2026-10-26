@@ -1,0 +1,20 @@
+# Ambiente Python dos testes
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Banco de dados local (o esquema e os dados de exemplo ficam em data/*.sql)
+data/*.sqlite
+data/*.sqlite-journal
+data/*.sqlite-wal
+data/*.sqlite-shm
+
+# Saídas dos testes (o relatório consolidado da release fica em docs/releases/)
+tests/selenium/saida/
+
+# Arquivos temporários do Office e do sistema
+~$*
+*.tmp
+Thumbs.db
+desktop.ini
+.DS_Store
