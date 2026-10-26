@@ -1,0 +1,37 @@
+CADÊ MEU TREM? — RELEASE 0 REVISADA
+Versão 2.0 | Preparação: 20/10/2026 | Conferência final: 21/10/2026
+Equipe: Antony Souza Siqueira e Felipe Santana Medeiros
+
+COMECE AQUI
+1. Leia 00_Escopo_EAP_Cade_Meu_Trem: objetivo, fluxo de uso, limites, entregas, EAP e critérios de aceite.
+2. Leia 01_DRE_Cade_Meu_Trem: seis requisitos funcionais de cliente (RFC), 19 operações do sistema (RFS) e seis requisitos não funcionais (RNF).
+3. Abra 03_CRO_Cade_Meu_Trem.pod no ProjectLibre: Arquivo > Abrir. O cronograma não depende do Excel.
+
+PADRÃO DA ESPECIFICAÇÃO
+A revisão segue os dois materiais da disciplina: “Resumo Regras para Especificação Incluir, Alterar, Consultar” e “Exemplo de Requisitos Funcionais de Cliente”.
+Cada operação possui identificador, nome, ator, descrição e prioridade. Conforme a operação, inclui campos, obrigatoriedade, validações, origem das escolhas, campos imutáveis, filtros, retorno, ordenação, resultado vazio, impedimentos e confirmação de exclusão.
+O detalhamento mantém quatro cadastros, devolução e dois relatórios. Os 19 RFSs decompõem os seis casos de uso da estimativa; não são contados novamente como funcionalidades adicionais.
+
+CRONOGRAMA NO PROJECTLIBRE
+O arquivo POD foi gravado e reaberto pelo leitor nativo do ProjectLibre 1.9.8.
+Contém 99 linhas hierárquicas: 25 agrupamentos, 69 atividades com esforço e cinco marcos.
+Expanda uma release e um pacote para visualizar as subtarefas. As notas relacionam a atividade à EAP e aos requisitos ou testes.
+Planejamento: 67 h de trabalho base + 9 h de reserva = 76 h. Capacidade de referência: 82 h.
+Linha de base 0 registrada. O progresso permanece em 0%, pois não foi informada execução real.
+Marcos: R0 em 22/10; R1 em 29/10; R2 em 05/11; R3 em 12/11; R4 em 19/11/2026.
+O calendário usa a capacidade informada de Antony. Felipe consta como integrante, sem horas adicionais atribuídas até combinar sua disponibilidade.
+Os horários distribuem a capacidade diária; não representam compromissos de agenda. Os custos são didáticos: R$ 30/h, total de R$ 2.280.
+Ao acompanhar a execução, registre trabalho real e conclusão das subtarefas e preserve a linha de base para comparação.
+O XML também está incluído para intercâmbio; o POD é o arquivo principal para uso no ProjectLibre.
+
+OUTROS ARQUIVOS
+02_EST_Cade_Meu_Trem.xlsx — cálculo da estimativa, fatores e correspondência entre casos de uso, RFSs e atividades.
+04_MRB_Cade_Meu_Trem.xlsx — rastreabilidade por requisito, por componente e cenários de teste planejados.
+05_Plano_Resumido — plano de uma página com escopo, equipe, execução, estimativa, entregas e riscos.
+06_Roteiro_Discussao — sequência de apresentação e respostas para a discussão da Release 0.
+Os documentos estão disponíveis em DOCX editável e PDF para leitura.
+
+PREMISSAS A REVISAR DURANTE A EXECUÇÃO
+A produtividade de 2 h/PCU é provisória e deve ser confrontada com o esforço real da R1.
+A divisão efetiva da dupla depende da disponibilidade combinada. Não somar horas adicionais ainda não definidas.
+Testes da MRB são planejados; seus resultados reais deverão ser registrados nas próximas releases.
