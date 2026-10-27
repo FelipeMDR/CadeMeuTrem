@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<dl class="detalhe" id="detalhe">
+    <dt>Identificador</dt><dd id="detalhe-id">{{ pessoa.id }}</dd>
+    <dt>Nome</dt><dd id="detalhe-nome">{{ pessoa.nome }}</dd>
+    <dt>Contato</dt><dd id="detalhe-contato">{{ pessoa.contato or '' }}</dd>
+    <dt>Ativo</dt><dd id="detalhe-ativo">{{ sim_nao(pessoa.ativo) }}</dd>
+</dl>
+<p>
+    <a class="botao" href="{{ url_for('pessoas.alterar', id_=pessoa.id) }}">Alterar</a>
+    <a class="botao secundario" href="{{ url_for('pessoas.consultar') }}">Voltar</a>
+</p>
+{% endblock %}

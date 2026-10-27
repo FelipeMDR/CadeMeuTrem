@@ -10,7 +10,7 @@
 <header class="topo">
     <a class="marca" href="{{ url_for('inicio') }}">{{ nome_sistema }}</a>
     <nav>
-        {% for pagina, rotulo, destino in [('inicio', 'Início', 'inicio')] %}
+        {% for pagina, rotulo, destino in [('inicio', 'Início', 'inicio'), ('pessoas', 'Pessoas', 'pessoas.consultar')] %}
             <a href="{{ url_for(destino) }}"{% if pagina == pagina_atual %} class="atual" aria-current="page"{% endif %}>{{ rotulo }}</a>
         {% endfor %}
     </nav>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p><a class="botao" id="nova-pessoa" href="{{ url_for('pessoas.incluir') }}">Incluir pessoa</a></p>
+
+<form class="filtros" id="filtros" method="get" action="{{ url_for('pessoas.consultar') }}">
+    <div class="campo">
+        <label for="filtro-nome">Nome</label>
+        <input type="text" id="filtro-nome" name="nome" maxlength="{{ nome_max }}" value="{{ filtro_nome }}">
+    </div>
+    <div class="campo">
+        <label for="filtro-ativo">Ativo</label>
+        <select id="filtro-ativo" name="ativo">
+            {% for valor, rotulo in [('', 'Todos'), ('1', 'Sim'), ('0', 'Não')] %}
+                <option value="{{ valor }}"{% if filtro_ativo == valor %} selected{% endif %}>{{ rotulo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" id="pesquisar">Pesquisar</button>
+    <a class="botao secundario" id="limpar-filtros" href="{{ url_for('pessoas.consultar') }}">Limpar</a>
+</form>
+
+{% if not mensagem_erro %}
+    {% if not pessoas %}
+        <p class="vazio" id="vazio">Nenhuma pessoa encontrada.</p>
+    {% else %}
+        <table class="lista" id="lista">
+            <thead><tr><th>Identificador</th><th>Nome</th><th>Contato</th><th>Ativo</th><th>Ações</th></tr></thead>
+            <tbody>
+            {% for p in pessoas %}
+                <tr data-id="{{ p.id }}">
+                    <td class="col-id">{{ p.id }}</td>
+                    <td class="col-nome">{{ p.nome }}</td>
+                    <td class="col-contato">{{ p.contato or '' }}</td>
+                    <td class="col-ativo">{{ sim_nao(p.ativo) }}</td>
+                    <td class="acoes">
+                        <a class="acao-detalhar" href="{{ url_for('pessoas.detalhar', id_=p.id) }}">Detalhar</a>
+                        <a class="acao-alterar" href="{{ url_for('pessoas.alterar', id_=p.id) }}">Alterar</a>
+                        <a class="acao-excluir" href="{{ url_for('pessoas.excluir', id_=p.id) }}">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="total" id="total">Pessoas exibidas: {{ pessoas | length }}</p>
+    {% endif %}
+{% endif %}
+{% endblock %}
