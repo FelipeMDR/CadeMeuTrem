@@ -5,7 +5,7 @@ Execução local: flask --app app run --host 127.0.0.1 --port 8000
 
 from flask import Flask, render_template, url_for
 
-from . import db, pessoas
+from . import categorias, db, pessoas
 from .telas import pagina_nao_encontrada, sim_nao
 
 NOME_SISTEMA = "Cadê Meu Trem?"
@@ -17,6 +17,7 @@ def create_app() -> Flask:
     app.config["BANCO"] = db.caminho_banco()
     db.iniciar(app)
     app.register_blueprint(pessoas.bp)
+    app.register_blueprint(categorias.bp)
 
     @app.context_processor
     def dados_do_layout():

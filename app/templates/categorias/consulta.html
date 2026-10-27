@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p><a class="botao" id="nova-categoria" href="{{ url_for('categorias.incluir') }}">Incluir categoria</a></p>
+
+<form class="filtros" id="filtros" method="get" action="{{ url_for('categorias.consultar') }}">
+    <div class="campo">
+        <label for="filtro-nome">Nome</label>
+        <input type="text" id="filtro-nome" name="nome" maxlength="{{ nome_max }}" value="{{ filtro_nome }}">
+    </div>
+    <button type="submit" id="pesquisar">Pesquisar</button>
+    <a class="botao secundario" id="limpar-filtros" href="{{ url_for('categorias.consultar') }}">Limpar</a>
+</form>
+
+{% if not mensagem_erro %}
+    {% if not categorias %}
+        <p class="vazio" id="vazio">Nenhuma categoria encontrada.</p>
+    {% else %}
+        <table class="lista" id="lista">
+            <thead><tr><th>Identificador</th><th>Nome</th><th>Ações</th></tr></thead>
+            <tbody>
+            {% for c in categorias %}
+                <tr data-id="{{ c.id }}">
+                    <td class="col-id">{{ c.id }}</td>
+                    <td class="col-nome">{{ c.nome }}</td>
+                    <td class="acoes">
+                        <a class="acao-alterar" href="{{ url_for('categorias.alterar', id_=c.id) }}">Alterar</a>
+                        <a class="acao-excluir" href="{{ url_for('categorias.excluir', id_=c.id) }}">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="total" id="total">Categorias exibidas: {{ categorias | length }}</p>
+    {% endif %}
+{% endif %}
+{% endblock %}
