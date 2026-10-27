@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ titulo }} — {{ nome_sistema }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+<header class="topo">
+    <a class="marca" href="{{ url_for('inicio') }}">{{ nome_sistema }}</a>
+    <nav>
+        {% for pagina, rotulo, destino in [('inicio', 'Início', 'inicio')] %}
+            <a href="{{ url_for(destino) }}"{% if pagina == pagina_atual %} class="atual" aria-current="page"{% endif %}>{{ rotulo }}</a>
+        {% endfor %}
+    </nav>
+</header>
+<main>
+    <h1>{{ titulo }}</h1>
+    {% if mensagem %}<p class="mensagem sucesso" id="mensagem" role="status">{{ mensagem }}</p>{% endif %}
+    {% if mensagem_erro %}<p class="mensagem erro" id="mensagem-erro" role="alert">{{ mensagem_erro }}</p>{% endif %}
+    {% if erros %}
+        <div class="mensagem erro" id="erros" role="alert">
+            <p>Corrija os campos abaixo:</p>
+            <ul>{% for erro in erros %}<li>{{ erro }}</li>{% endfor %}</ul>
+        </div>
+    {% endif %}
+    {% block conteudo %}{% endblock %}
+</main>
+<footer class="rodape">{{ nome_sistema }} · {{ versao_sistema }} · Gerência de Projetos de Software — UNIFEI</footer>
+</body>
+</html>

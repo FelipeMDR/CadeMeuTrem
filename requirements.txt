@@ -1,0 +1,2 @@
+# Aplicação
+flask==3.1.0
