@@ -9,8 +9,8 @@
 | 1 | Implementação de 2 CRUDs | Feito | Pessoas (RFS01 a RFS04) em [`app/pessoas.py`](../../../app/pessoas.py); Categorias (RFS05 a RFS08) em [`app/categorias.py`](../../../app/categorias.py) |
 | 2 | Teste automatizado dos CRUDs com Selenium | Feito: 37/37 aprovados (CT01: 20, CT02: 15, CT13: 2) | [`tests/selenium/`](../../../tests/selenium/) e [relatório](relatorio_testes.md) |
 | 3 | Commits de código, DRE e cronograma na branch em andamento | Feito | Histórico da branch `dev/release-1` |
-| 4 | Atualização periódica do cronograma e do DRE, sob controle de versão | Feito (falta salvar o `.pod`) | [DRE 3.1](../../01_DRE_Cade_Meu_Trem.pdf), [acompanhamento do CRO](acompanhamento_cronograma.md) |
-| 5 | Baseline de gerência de configuração (tag) | `release-0` criada; `release-1` após o merge | [Gerência de configuração](../../gerencia_configuracao.md) |
+| 4 | Atualização periódica do cronograma e do DRE, sob controle de versão | CRO .pod/XML v2.2 revisados; horas reais pendentes | [DRE 3.1](../../01_DRE_Cade_Meu_Trem.pdf), [acompanhamento do CRO](acompanhamento_cronograma.md) |
+| 5 | Baseline de gerência de configuração (tag) | PR #17 integrado; tag `release-1` pendente | [Gerência de configuração](../../gerencia_configuracao.md) |
 
 ## Entregue
 
@@ -37,7 +37,7 @@
   - DRE 3.1 no padrão SINFRA + Resumo de Regras (orientação do professor após a R0), com o ambiente Python + Flask;
   - MRB 2.1 com o resultado do CT01, do CT02 e do CT13;
   - EST 2.1 e plano resumido 2.1 com o ambiente da R1;
-  - CRO com o acompanhamento de 27/10.
+  - CRO v2.2 com revisão de 28/10 e progresso físico separado de esforço.
 
 ## Roteiro da demonstração (29/10)
 
@@ -63,11 +63,16 @@
 ## Pendências para a dupla
 
 - [ ] Revisar o Pull Request da R1 (Antony e Felipe) e registrar a revisão.
-- [ ] Informar as horas reais das atividades concluídas e salvar o `.pod` ([instruções](acompanhamento_cronograma.md#como-levar-esta-atualização-para-o-arquivo-pod)).
-- [ ] Fazer o merge na `main` e criar a tag `release-1` (A09.2).
+- [ ] Transcrever apontamentos reais por atividade/integrante e atualizar atribuições no .pod v2.2.
+- [x] Integrar o PR #17 na `main` (28/10, `1e1b6b8`).
+- [ ] Integrar as correções desta revisão e criar a tag `release-1` (A09.2).
 - [ ] Revisar a premissa de 2 h/PCU e o fator F08 da EST com as horas reais da R1.
 
 ## Fora desta release
 
 Objetos, empréstimos e devolução (R2, 05/11); pendências (R3, 12/11); histórico (R4, 19/11). Nas exclusões com vínculo, o
 teste de hoje prepara os objetos e empréstimos direto no banco. Ele será repetido pela tela quando esses cadastros existirem (R2).
+
+## Revisão de 28/10
+
+37/37 testes repetidos com sucesso. Consulte o [relatório de revisão](revisao_2026-10-28.md) e o [Status Report](status_report.md). Permanecem pendentes a proteção CSRF, os apontamentos reais, o registro de bugs em Mantis/Bugzilla e a confirmação do escopo final com o professor.

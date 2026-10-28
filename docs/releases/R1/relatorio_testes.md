@@ -65,3 +65,7 @@ temporário; o banco local em `data/` não é alterado. Para repetir: `scripts\t
 |---|---|---|---|
 | RNF05 | Parametros repetidos ou invalidos sao ignorados | Aprovado | 0.16 |
 | RNF05 | Banco e codigo nao sao servidos | Aprovado | 2.21 |
+
+## Reexecução independente — 28/10/2026
+
+37/37 aprovados em 13,76 s, Python 3.12.3, com Chrome explicitamente configurado. O primeiro ensaio falhou na descoberta automática do navegador; não houve falha funcional após resolver o caminho. Esta reexecução confirma os cenários existentes, sem cobrir CSRF. O relatório acima preserva a execução histórica de 27/10.
