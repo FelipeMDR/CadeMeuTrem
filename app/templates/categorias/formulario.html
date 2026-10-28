@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<form class="formulario" id="formulario" method="post">
+    {{ campos.identificador(id_) }}
+    <div class="campo">
+        <label for="nome">Nome *</label>
+        <input type="text" id="nome" name="nome" maxlength="{{ nome_max }}" value="{{ nome }}">
+        <small>Exemplos: Livros, Ferramentas, Cozinha.</small>
+    </div>
+    <p class="obrigatorios">Campos com * são obrigatórios.</p>
+    <button type="submit" id="salvar">Salvar</button>
+    <a class="botao secundario" id="cancelar" href="{{ url_for('categorias.consultar') }}">Cancelar</a>
+</form>
+{% endblock %}

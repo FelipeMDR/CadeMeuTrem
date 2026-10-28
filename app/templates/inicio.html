@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p>Registre as pessoas e as categorias. Nas próximas releases, cada objeto físico será
+associado a uma categoria e emprestado a uma pessoa ativa.</p>
+
+<div class="cartoes">
+    <a class="cartao" id="ir-pessoas" href="{{ url_for('pessoas.consultar') }}">
+        <strong>Pessoas</strong>
+        <span>Quem pode retirar objetos.</span>
+    </a>
+    <a class="cartao" id="ir-categorias" href="{{ url_for('categorias.consultar') }}">
+        <strong>Categorias</strong>
+        <span>Livros, ferramentas, cozinha...</span>
+    </a>
+    <div class="cartao desativado" aria-disabled="true">
+        <strong>Objetos e empréstimos</strong>
+        <span>Release 2 (05/11).</span>
+    </div>
+    <div class="cartao desativado" aria-disabled="true">
+        <strong>Pendências e histórico</strong>
+        <span>Releases 3 e 4 (12/11 e 19/11).</span>
+    </div>
+</div>
+{% endblock %}

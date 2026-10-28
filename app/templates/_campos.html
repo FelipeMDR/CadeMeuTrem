@@ -1,0 +1,18 @@
+{# Campos reutilizados pelos formulários. #}
+
+{% macro sim_nao(nome, rotulo, valor) %}
+    <fieldset class="campo">
+        <legend>{{ rotulo }}</legend>
+        <label><input type="radio" name="{{ nome }}" id="{{ nome }}-sim" value="1"{% if valor == '1' %} checked{% endif %}> Sim</label>
+        <label><input type="radio" name="{{ nome }}" id="{{ nome }}-nao" value="0"{% if valor == '0' %} checked{% endif %}> Não</label>
+    </fieldset>
+{% endmacro %}
+
+{% macro identificador(id_) %}
+    {% if id_ is not none %}
+        <div class="campo">
+            <label for="identificador">Identificador</label>
+            <input type="text" id="identificador" value="{{ id_ }}" readonly>
+        </div>
+    {% endif %}
+{% endmacro %}

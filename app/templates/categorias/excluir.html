@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block conteudo %}
+{% if bloqueada %}
+    <p><a class="botao secundario" id="voltar" href="{{ url_for('categorias.consultar') }}">Voltar</a></p>
+{% else %}
+    <div class="confirmacao" id="confirmacao">
+        <p>Confirma a exclusão desta categoria? A operação não pode ser desfeita.</p>
+        <dl class="detalhe">
+            <dt>Identificador</dt><dd id="confirmar-id">{{ categoria.id }}</dd>
+            <dt>Nome</dt><dd id="confirmar-nome">{{ categoria.nome }}</dd>
+        </dl>
+        <form method="post">
+            <button type="submit" class="perigo" id="confirmar-exclusao">Confirmar exclusão</button>
+            <a class="botao secundario" id="cancelar" href="{{ url_for('categorias.consultar') }}">Cancelar</a>
+        </form>
+    </div>
+{% endif %}
+{% endblock %}
