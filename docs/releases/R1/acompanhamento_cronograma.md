@@ -49,4 +49,10 @@ R1: Felipe 9 h e Antony 8 h, incluindo a reserva. Projeto completo: Felipe 9 h e
 
 ## Visualização do avanço
 
-O .pod salva a coluna **Porcentagem física completa** logo após o nome da atividade, seguida por responsáveis, trabalho, início e término. O avanço está nas subtarefas; os resumos não consolidam automaticamente esse campo. Preferências de colunas pertencem ao .pod, sem mudança nos dados do XML.
+A tabela preserva ID, indicadores e nome da atividade. O ID ocupa a primeira posição interna, reservada pelo ProjectLibre ao cabeçalho das linhas; colocar o nome nessa posição oculta a coluna de atividades.
+
+No ProjectLibre 1.9.8, o campo nativo **Porcentagem física completa** não é aplicável ao objeto de tarefa na tabela: a leitura pela configuração de campos retorna **não aplicável (N/A)**, embora o valor esteja armazenado na tarefa. Por isso, a visualização usa **Texto1 (Text1)** logo após o nome, com valores como **100% físico**. Os agrupamentos mostram **ver subtarefas**, sem apresentar um total não consolidado.
+
+Texto1 é uma cópia para exibição do avanço físico registrado, não uma fórmula automática. Ao atualizar o avanço, manter esse texto e o valor físico consistentes no .pod e no XML. O XML declara Text1 com o alias **Avanço físico**. Esse ajuste não lança horas reais nem altera percentuais de duração/trabalho.
+
+Validação: arquivo salvo e reaberto pela biblioteca do ProjectLibre; modelo nativo de colunas confirmou nome e Texto1 visíveis. Comparação das 99 tarefas confirmou preservação de nomes, notas, datas, trabalho, custos, linha de base, avanço original, dados reais e alocações. A captura da janela do aplicativo falhou; a aparência na tela não foi verificada nesta correção.
