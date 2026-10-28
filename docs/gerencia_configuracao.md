@@ -61,3 +61,7 @@ andamento (DRE, seção 5.1).
 
 - **Milestones R1 a R4**, com as datas de entrega, mostram o progresso de cada release.
 - **Issues**, uma por atividade do cronograma (A05, A06...), fecham pelo commit ou PR que as conclui (`Closes #N`).
+
+## Situação verificada em 28/10/2026
+
+O PR #17 foi integrado à main no commit `1e1b6b8`. A tag `release-1` ainda não estava publicada. As correções da revisão devem passar pelo mesmo fluxo de integração antes de congelar a baseline. Merge não comprova, por si só, aprovação individual dos dois integrantes.
