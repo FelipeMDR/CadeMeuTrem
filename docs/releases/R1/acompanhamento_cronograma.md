@@ -46,3 +46,7 @@ Felipe é responsável pelo desenvolvimento da R1. São 11 subtarefas, com respo
 | Antony Souza Siqueira | B01: reserva R1, uso ainda não confirmado | 2 h |
 
 R1: Felipe 9 h e Antony 8 h, incluindo a reserva. Projeto completo: Felipe 9 h e Antony 67 h. A distribuição não aumenta as 76 h totais e preserva datas, custos e baseline 0. Os apontamentos reais continuam pendentes. A tag release-0 permanece como referência histórica da alocação original.
+
+## Visualização do avanço
+
+O .pod salva a coluna **Porcentagem física completa** logo após o nome da atividade, seguida por responsáveis, trabalho, início e término. O avanço está nas subtarefas; os resumos não consolidam automaticamente esse campo. Preferências de colunas pertencem ao .pod, sem mudança nos dados do XML.
