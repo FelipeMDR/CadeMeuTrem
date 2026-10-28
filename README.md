@@ -12,7 +12,7 @@ quando deve devolvê-lo e o que está atrasado. Trabalho final de Gerência de P
 | Release | Entrega | Conteúdo | Situação |
 |---|---|---|---|
 | R0 | 22/10/2026 | Escopo, DRE, EST, CRO, MRB e plano | Entregue · tag `release-0` |
-| R1 | 29/10/2026 | Pessoas, categorias e testes Selenium | Implementada e testada (37/37) · em revisão |
+| R1 | 29/10/2026 | Pessoas, categorias e testes Selenium | Entregue · tag `release1` |
 | R2 | 05/11/2026 | Objetos, empréstimos e devolução | Planejada |
 | R3 | 12/11/2026 | Relatório de pendências e atrasos | Planejada |
 | R4 | 19/11/2026 | Histórico, regressão e pacote final | Planejada |
@@ -70,4 +70,6 @@ requirements.txt       Flask, Selenium e pytest
 
 Branches, tags de baseline e convenções de commit estão em [docs/gerencia_configuracao.md](docs/gerencia_configuracao.md).
 Em resumo: cada release tem uma branch `dev/release-N`, entra na `main` por Pull Request revisado pelo colega e é congelada
-com a tag `release-N`.
+com uma tag de release (`release-0` na R0 e `release1` na R1).
+
+Revisão de 28/10: [achados e pendências](docs/releases/R1/revisao_2026-10-28.md). Cronograma .pod/XML atualizado para v2.3; apontamentos reais aguardam lançamento.
