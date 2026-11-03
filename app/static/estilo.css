@@ -123,3 +123,15 @@ input[readonly] { background: #eef0f3; color: var(--texto-suave); }
 a.cartao:hover { border-color: var(--primaria); }
 .cartao span { color: var(--texto-suave); }
 .cartao.desativado { opacity: 0.6; }
+
+textarea {
+    font: inherit;
+    padding: 7px 10px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background: #fff;
+    width: 100%;
+    max-width: 640px;
+    resize: vertical;
+}
+input.curto { min-width: 140px; width: 180px; }

@@ -11,6 +11,13 @@
 {# Token contra envio do formulário por outro site (RNF05). #}
 {% macro csrf() %}<input type="hidden" name="token_csrf" value="{{ token_csrf() }}">{% endmacro %}
 
+{% macro observacao(valor, maximo) %}
+    <div class="campo">
+        <label for="observacao">Observação</label>
+        <textarea id="observacao" name="observacao" maxlength="{{ maximo }}" rows="3">{{ valor }}</textarea>
+    </div>
+{% endmacro %}
+
 {% macro identificador(id_) %}
     {% if id_ is not none %}
         <div class="campo">
