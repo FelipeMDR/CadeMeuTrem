@@ -39,7 +39,7 @@ body {
 .topo nav a { color: #e6efff; text-decoration: none; padding: 6px 12px; border-radius: 6px; }
 .topo nav a:hover, .topo nav a.atual { background: var(--primaria-escura); color: #fff; }
 
-main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
 h1 { font-size: 1.6rem; margin: 0 0 16px; }
 
 .rodape { text-align: center; color: var(--texto-suave); font-size: 0.85rem; padding: 16px; }
@@ -99,6 +99,7 @@ input[readonly] { background: #eef0f3; color: var(--texto-suave); }
 .lista th, .lista td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--borda); }
 .lista th { background: #eef1f5; }
 .lista .col-id { text-align: right; width: 1%; white-space: nowrap; }
+.lista .acoes { white-space: nowrap; }
 .lista .acoes a { margin-right: 10px; }
 .total, .vazio { color: var(--texto-suave); }
 
@@ -123,3 +124,16 @@ input[readonly] { background: #eef0f3; color: var(--texto-suave); }
 a.cartao:hover { border-color: var(--primaria); }
 .cartao span { color: var(--texto-suave); }
 .cartao.desativado { opacity: 0.6; }
+
+textarea {
+    font: inherit;
+    padding: 7px 10px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    background: #fff;
+    width: 100%;
+    max-width: 640px;
+    resize: vertical;
+}
+input.curto { min-width: 140px; width: 180px; }
+input.data { min-width: 0; width: 140px; }

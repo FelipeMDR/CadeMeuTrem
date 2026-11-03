@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p>
+    <a class="botao" id="ir-incluir-categoria" href="{{ url_for('categorias.incluir') }}">Incluir categoria</a>
+    <a class="botao secundario" id="voltar" href="{{ url_for('objetos.consultar') }}">Voltar</a>
+</p>
+{% endblock %}

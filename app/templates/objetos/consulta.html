@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p><a class="botao" id="novo-objeto" href="{{ url_for('objetos.incluir') }}">Incluir objeto</a></p>
+
+<form class="filtros" id="filtros" method="get" action="{{ url_for('objetos.consultar') }}">
+    <div class="campo">
+        <label for="filtro-codigo">Código</label>
+        <input type="text" class="curto" id="filtro-codigo" name="codigo" maxlength="{{ codigo_max }}" value="{{ filtro.codigo }}">
+    </div>
+    <div class="campo">
+        <label for="filtro-nome">Nome</label>
+        <input type="text" id="filtro-nome" name="nome" maxlength="{{ nome_max }}" value="{{ filtro.nome }}">
+    </div>
+    <div class="campo">
+        <label for="filtro-categoria">Categoria</label>
+        <select id="filtro-categoria" name="categoria">
+            <option value="">Todas</option>
+            {% for c in categorias %}
+                <option value="{{ c.id }}"{% if filtro.categoria == c.id|string %} selected{% endif %}>{{ c.nome }} ({{ c.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-ativo">Ativo</label>
+        <select id="filtro-ativo" name="ativo">
+            {% for valor, rotulo in [('', 'Todos'), ('1', 'Sim'), ('0', 'Não')] %}
+                <option value="{{ valor }}"{% if filtro.ativo == valor %} selected{% endif %}>{{ rotulo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-disponibilidade">Disponibilidade</label>
+        <select id="filtro-disponibilidade" name="disponibilidade">
+            <option value="">Todas</option>
+            {% for valor, rotulo in disponibilidades.items() %}
+                <option value="{{ valor }}"{% if filtro.disponibilidade == valor %} selected{% endif %}>{{ rotulo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" id="pesquisar">Pesquisar</button>
+    <a class="botao secundario" id="limpar-filtros" href="{{ url_for('objetos.consultar') }}">Limpar</a>
+</form>
+
+{% if not mensagem_erro %}
+    {% if not objetos %}
+        <p class="vazio" id="vazio">Nenhum objeto encontrado.</p>
+    {% else %}
+        <table class="lista" id="lista">
+            <thead><tr><th>Identificador</th><th>Código</th><th>Nome</th><th>Categoria</th><th>Ativo</th><th>Disponibilidade</th><th>Ações</th></tr></thead>
+            <tbody>
+            {% for o in objetos %}
+                <tr data-id="{{ o.id }}">
+                    <td class="col-id">{{ o.id }}</td>
+                    <td class="col-codigo">{{ o.codigo }}</td>
+                    <td class="col-nome">{{ o.nome }}</td>
+                    <td class="col-categoria">{{ o.categoria }}</td>
+                    <td class="col-ativo">{{ sim_nao(o.ativo) }}</td>
+                    <td class="col-disponibilidade">{{ o.disponibilidade }}</td>
+                    <td class="acoes">
+                        <a class="acao-detalhar" href="{{ url_for('objetos.detalhar', id_=o.id) }}">Detalhar</a>
+                        <a class="acao-alterar" href="{{ url_for('objetos.alterar', id_=o.id) }}">Alterar</a>
+                        <a class="acao-excluir" href="{{ url_for('objetos.excluir', id_=o.id) }}">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="total" id="total">Objetos exibidos: {{ objetos | length }}</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

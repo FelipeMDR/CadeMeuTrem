@@ -1,5 +1,7 @@
 # Aplicação
 flask==3.1.0
+# Fuso America/Sao_Paulo no Windows, que não traz a base de fusos horários
+tzdata==2025.2
 
 # Testes funcionais (Selenium)
 selenium==4.27.1

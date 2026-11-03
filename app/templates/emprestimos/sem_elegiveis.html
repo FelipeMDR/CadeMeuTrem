@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="mensagem erro" id="mensagem-erro" role="alert">
+    <p>Não é possível registrar um empréstimo agora:</p>
+    <ul>{% for motivo in motivos %}<li>{{ motivo }}</li>{% endfor %}</ul>
+</div>
+<p>
+    <a class="botao secundario" href="{{ url_for('pessoas.consultar') }}">Ir para Pessoas</a>
+    <a class="botao secundario" href="{{ url_for('objetos.consultar') }}">Ir para Objetos</a>
+    <a class="botao secundario" id="voltar" href="{{ url_for('emprestimos.consultar') }}">Voltar</a>
+</p>
+{% endblock %}

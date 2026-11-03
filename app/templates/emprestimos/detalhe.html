@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<dl class="detalhe" id="detalhe">
+    <dt>Identificador</dt><dd id="detalhe-id">{{ emprestimo.id }}</dd>
+    <dt>Pessoa</dt><dd id="detalhe-pessoa">{{ emprestimo.pessoa }}</dd>
+    <dt>Código</dt><dd id="detalhe-codigo">{{ emprestimo.codigo }}</dd>
+    <dt>Objeto</dt><dd id="detalhe-objeto">{{ emprestimo.objeto }}</dd>
+    <dt>Retirada</dt><dd id="detalhe-retirada">{{ emprestimo.data_retirada | data }}</dd>
+    <dt>Previsão</dt><dd id="detalhe-previsao">{{ emprestimo.previsao_devolucao | data }}</dd>
+    <dt>Devolução</dt><dd id="detalhe-devolucao">{{ emprestimo.data_devolucao | data }}</dd>
+    <dt>Situação</dt><dd id="detalhe-situacao">{{ emprestimo.situacao }}</dd>
+    <dt>Observação</dt><dd id="detalhe-observacao">{{ emprestimo.observacao or '' }}</dd>
+</dl>
+<p>
+    <a class="botao" href="{{ url_for('emprestimos.alterar', id_=emprestimo.id) }}">Alterar</a>
+    {% if not emprestimo.data_devolucao %}<a class="botao" href="{{ url_for('emprestimos.devolver', id_=emprestimo.id) }}">Registrar devolução</a>{% endif %}
+    <a class="botao secundario" href="{{ url_for('emprestimos.consultar') }}">Voltar</a>
+</p>
+{% endblock %}

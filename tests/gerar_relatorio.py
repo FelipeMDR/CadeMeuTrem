@@ -19,7 +19,12 @@ SAIDA = RAIZ / "tests" / "selenium" / "saida"
 CENARIOS = {
     "test_ct01_pessoas": ("CT01", "Manter pessoas (RFS01 a RFS04)"),
     "test_ct02_categorias": ("CT02", "Manter categorias (RFS05 a RFS08)"),
-    "test_ct13_protecao": ("CT13", "Validação e proteção (RNF05), cenários antecipados"),
+    "test_ct03_objetos": ("CT03", "Manter objetos (RFS09 a RFS12)"),
+    "test_ct04_emprestimos": ("CT04", "Controlar empréstimos (RFS13 a RFS16)"),
+    "test_ct05_regras_emprestimo": ("CT05", "Regras de empréstimo e devolução (RFS13 a RFS17 e RNF02)"),
+    "test_ct06_datas": ("CT06", "Datas de retirada, previsão e devolução (RFS13, RFS14 e RFS17)"),
+    "test_ct10_integridade": ("CT10", "Persistência e integridade (RNF02)"),
+    "test_ct13_protecao": ("CT13", "Validação e proteção (RNF05)"),
 }
 
 

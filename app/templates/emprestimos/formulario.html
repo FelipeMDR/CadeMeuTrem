@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<form class="formulario" id="formulario" method="post">
+    {{ campos.csrf() }}
+    <div class="campo">
+        <label for="pessoa">Pessoa *</label>
+        <select id="pessoa" name="pessoa">
+            <option value="">Selecione</option>
+            {% for p in pessoas %}
+                <option value="{{ p.id }}"{% if dados.pessoa == p.id|string %} selected{% endif %}>{{ p.nome }} ({{ p.id }})</option>
+            {% endfor %}
+        </select>
+        <small>Somente pessoas ativas.</small>
+    </div>
+    <div class="campo">
+        <label for="objeto">Objeto *</label>
+        <select id="objeto" name="objeto">
+            <option value="">Selecione</option>
+            {% for o in objetos %}
+                <option value="{{ o.id }}"{% if dados.objeto == o.id|string %} selected{% endif %}>{{ o.codigo }} – {{ o.nome }}</option>
+            {% endfor %}
+        </select>
+        <small>Somente objetos ativos e disponíveis.</small>
+    </div>
+    {{ campos.data('data-retirada', 'data_retirada', 'Data da retirada *', dados.data_retirada) }}
+    {{ campos.data('previsao-devolucao', 'previsao', 'Previsão de devolução *', dados.previsao) }}
+    {{ campos.observacao(dados.observacao, observacao_max) }}
+    <p class="obrigatorios">Campos com * são obrigatórios. Datas no formato DD/MM/AAAA.</p>
+    <button type="submit" id="salvar">Salvar</button>
+    <a class="botao secundario" id="cancelar" href="{{ url_for('emprestimos.consultar') }}">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+{% if bloqueado %}
+    <p>
+        <a class="botao" id="inativar" href="{{ url_for('objetos.alterar', id_=objeto.id) }}">Alterar objeto</a>
+        <a class="botao secundario" id="voltar" href="{{ url_for('objetos.consultar') }}">Voltar</a>
+    </p>
+{% else %}
+    <div class="confirmacao" id="confirmacao">
+        <p>Confirma a exclusão deste objeto? A operação não pode ser desfeita.</p>
+        <dl class="detalhe">
+            <dt>Identificador</dt><dd id="confirmar-id">{{ objeto.id }}</dd>
+            <dt>Código</dt><dd id="confirmar-codigo">{{ objeto.codigo }}</dd>
+            <dt>Nome</dt><dd id="confirmar-nome">{{ objeto.nome }}</dd>
+        </dl>
+        <form method="post">
+            {{ campos.csrf() }}
+            <button type="submit" class="perigo" id="confirmar-exclusao">Confirmar exclusão</button>
+            <a class="botao secundario" id="cancelar" href="{{ url_for('objetos.consultar') }}">Cancelar</a>
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

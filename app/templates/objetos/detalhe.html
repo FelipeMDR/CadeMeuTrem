@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<dl class="detalhe" id="detalhe">
+    <dt>Identificador</dt><dd id="detalhe-id">{{ objeto.id }}</dd>
+    <dt>Código</dt><dd id="detalhe-codigo">{{ objeto.codigo }}</dd>
+    <dt>Nome</dt><dd id="detalhe-nome">{{ objeto.nome }}</dd>
+    <dt>Categoria</dt><dd id="detalhe-categoria">{{ objeto.categoria }}</dd>
+    <dt>Observação</dt><dd id="detalhe-observacao">{{ objeto.observacao or '' }}</dd>
+    <dt>Ativo</dt><dd id="detalhe-ativo">{{ sim_nao(objeto.ativo) }}</dd>
+    <dt>Disponibilidade</dt><dd id="detalhe-disponibilidade">{{ objeto.disponibilidade }}</dd>
+</dl>
+<p>
+    <a class="botao" href="{{ url_for('objetos.alterar', id_=objeto.id) }}">Alterar</a>
+    <a class="botao secundario" href="{{ url_for('objetos.consultar') }}">Voltar</a>
+</p>
+{% endblock %}

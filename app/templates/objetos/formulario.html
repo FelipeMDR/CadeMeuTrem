@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<form class="formulario" id="formulario" method="post">
+    {{ campos.csrf() }}
+    {{ campos.identificador(objeto.id if objeto else none) }}
+    <div class="campo">
+        <label for="codigo">Código *</label>
+        <input type="text" class="curto" id="codigo" name="codigo" maxlength="{{ codigo_max }}" value="{{ dados.codigo }}">
+        <small>Um código por unidade física, como FUR001. Gravado em maiúsculas.</small>
+    </div>
+    <div class="campo">
+        <label for="nome">Nome *</label>
+        <input type="text" id="nome" name="nome" maxlength="{{ nome_max }}" value="{{ dados.nome }}">
+    </div>
+    <div class="campo">
+        <label for="categoria">Categoria *</label>
+        <select id="categoria" name="categoria">
+            <option value="">Selecione</option>
+            {% for c in categorias %}
+                <option value="{{ c.id }}"{% if dados.categoria == c.id|string %} selected{% endif %}>{{ c.nome }} ({{ c.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    {{ campos.observacao(dados.observacao, observacao_max) }}
+    {{ campos.sim_nao('ativo', 'Ativo *', dados.ativo) }}
+    {% if objeto %}
+        <div class="campo">
+            <label for="disponibilidade">Disponibilidade</label>
+            <input type="text" id="disponibilidade" value="{{ objeto.disponibilidade }}" readonly>
+            <small>Calculada pelo sistema a partir dos empréstimos.</small>
+        </div>
+    {% endif %}
+    <p class="obrigatorios">Campos com * são obrigatórios.</p>
+    <button type="submit" id="salvar">Salvar</button>
+    <a class="botao secundario" id="cancelar" href="{{ url_for('objetos.consultar') }}">Cancelar</a>
+</form>
+{% endblock %}

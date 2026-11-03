@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block conteudo %}
-<p>Registre as pessoas e as categorias. Nas próximas releases, cada objeto físico será
-associado a uma categoria e emprestado a uma pessoa ativa.</p>
+<p>Registre as pessoas, as categorias e cada objeto físico da república. Depois, registre quem retirou cada
+objeto, a previsão de devolução e a devolução.</p>
 
 <div class="cartoes">
     <a class="cartao" id="ir-pessoas" href="{{ url_for('pessoas.consultar') }}">
@@ -12,10 +12,14 @@ associado a uma categoria e emprestado a uma pessoa ativa.</p>
         <strong>Categorias</strong>
         <span>Livros, ferramentas, cozinha...</span>
     </a>
-    <div class="cartao desativado" aria-disabled="true">
-        <strong>Objetos e empréstimos</strong>
-        <span>Release 2 (05/11).</span>
-    </div>
+    <a class="cartao" id="ir-objetos" href="{{ url_for('objetos.consultar') }}">
+        <strong>Objetos</strong>
+        <span>Cada unidade física, com código próprio.</span>
+    </a>
+    <a class="cartao" id="ir-emprestimos" href="{{ url_for('emprestimos.consultar') }}">
+        <strong>Empréstimos</strong>
+        <span>Retiradas, previsões e devoluções.</span>
+    </a>
     <div class="cartao desativado" aria-disabled="true">
         <strong>Pendências e histórico</strong>
         <span>Releases 3 e 4 (12/11 e 19/11).</span>

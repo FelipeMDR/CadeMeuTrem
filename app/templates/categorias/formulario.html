@@ -2,6 +2,7 @@
 {% import "_campos.html" as campos %}
 {% block conteudo %}
 <form class="formulario" id="formulario" method="post">
+    {{ campos.csrf() }}
     {{ campos.identificador(id_) }}
     <div class="campo">
         <label for="nome">Nome *</label>

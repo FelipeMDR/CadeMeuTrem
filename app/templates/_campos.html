@@ -8,6 +8,32 @@
     </fieldset>
 {% endmacro %}
 
+{# Token contra envio do formulário por outro site (RNF05). #}
+{% macro csrf() %}<input type="hidden" name="token_csrf" value="{{ token_csrf() }}">{% endmacro %}
+
+{# Campo somente leitura, exibido para conferência. #}
+{% macro leitura(id_, rotulo, valor) %}
+    <div class="campo">
+        <label for="{{ id_ }}">{{ rotulo }}</label>
+        <input type="text" id="{{ id_ }}" name="{{ id_ }}" value="{{ valor }}" readonly>
+    </div>
+{% endmacro %}
+
+{% macro data(id_, nome, rotulo, valor) %}
+    <div class="campo">
+        <label for="{{ id_ }}">{{ rotulo }}</label>
+        <input type="text" class="data" id="{{ id_ }}" name="{{ nome }}" maxlength="10" placeholder="DD/MM/AAAA"
+               inputmode="numeric" value="{{ valor }}">
+    </div>
+{% endmacro %}
+
+{% macro observacao(valor, maximo) %}
+    <div class="campo">
+        <label for="observacao">Observação</label>
+        <textarea id="observacao" name="observacao" maxlength="{{ maximo }}" rows="3">{{ valor }}</textarea>
+    </div>
+{% endmacro %}
+
 {% macro identificador(id_) %}
     {% if id_ is not none %}
         <div class="campo">

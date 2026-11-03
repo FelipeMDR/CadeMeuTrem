@@ -23,21 +23,21 @@ Como o código e os documentos do Cadê Meu Trem? são versionados, revisados e 
 
 ## Fluxo de uma release
 
-1. Criar a branch em andamento a partir da `main`: `git switch main && git pull && git switch -c dev/release-2`.
+1. Criar a branch em andamento a partir da `main`: `git switch main && git pull && git switch -c dev/release-3`.
 2. Fazer commits pequenos, citando a atividade do cronograma ou o documento:
    - `A10: CRUD de objetos (RFS09 a RFS12)`
    - `DRE 3.3: ajusta regra de código do objeto`
    - `CRO: acompanhamento de 02/11`
 3. Atualizar o cronograma e, quando necessário, o DRE na mesma branch (Aula 20-21, itens 3 e 4).
-4. Rodar os testes (`scripts\testar.bat`) e gerar o relatório (`.venv\Scripts\python tests\gerar_relatorio.py R2`).
+4. Rodar os testes (`scripts\testar.bat`) e gerar o relatório (`.venv\Scripts\python tests\gerar_relatorio.py R3`).
 5. Abrir um Pull Request de `dev/release-N` para `main`. O outro integrante revisa e aprova.
 6. Depois do merge, salvar a **baseline** com uma tag anotada e publicá-la:
 
    ```bash
    git switch main
    git pull
-   git tag -a release-2 -m "Baseline R2 — objetos, empréstimos e devolução"
-   git push origin release-2
+   git tag -a release2 -m "Baseline R2 — objetos, empréstimos e devolução"
+   git push origin release2
    ```
 
 7. Opcional: criar uma *Release* no GitHub a partir da tag, anexando o PDF do DRE e o relatório de testes.
@@ -47,7 +47,8 @@ Como o código e os documentos do Cadê Meu Trem? são versionados, revisados e 
 | Tag | Conteúdo | Data |
 |---|---|---|
 | `release-0` | Documentos de análise da R0 (DRE 2.0, EST, CRO, MRB, escopo, plano). | Entregue em 22/10/2026; versionada em 26/10/2026 |
-| `release-1` | Pessoas e categorias em Python + Flask, testes CT01/CT02/CT13, DRE 3.1, EST, CRO e MRB atualizados. | Após a revisão do PR da R1 (até 29/10/2026) |
+| `release1` | Pessoas e categorias em Python + Flask, testes CT01/CT02/CT13, DRE 3.1, EST, CRO e MRB atualizados. | 28/10/2026 |
+| `release2` | Objetos, empréstimos e devolução, testes CT03 a CT06, CT10 e CT13, proteção CSRF, DRE 3.2, MRB 2.2 e CRO v2.4. | 03/11/2026, antes da apresentação da R2 |
 
 Para consultar uma baseline: `git switch --detach release-0`. Para voltar: `git switch main`.
 

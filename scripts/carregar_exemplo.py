@@ -20,6 +20,7 @@ if caminho.exists():
 db.criar_esquema(str(caminho))
 with closing(db.abrir(str(caminho))) as conexao:
     conexao.executescript((db.RAIZ / "data" / "exemplo.sql").read_text(encoding="utf-8"))
-    pessoas = conexao.execute("SELECT COUNT(*) FROM pessoa").fetchone()[0]
-    categorias = conexao.execute("SELECT COUNT(*) FROM categoria").fetchone()[0]
-print(f"Banco criado em {caminho}: {pessoas} pessoas e {categorias} categorias de exemplo.")
+    totais = [conexao.execute(f"SELECT COUNT(*) FROM {tabela}").fetchone()[0]
+              for tabela in ("pessoa", "categoria", "objeto", "emprestimo")]
+print(f"Banco criado em {caminho}: {totais[0]} pessoas, {totais[1]} categorias, {totais[2]} objetos e "
+      f"{totais[3]} empréstimos de exemplo.")
