@@ -44,7 +44,20 @@ scripts\testar.bat
 .venv\Scripts\python tests\gerar_relatorio.py R1
 ```
 
-Para ver o navegador durante os testes, defina `set MOSTRAR_NAVEGADOR=1`. As falhas geram capturas de tela em
+Para apresentar os testes, use o modo de demonstração. Ele abre o Chrome visível e destaca cada campo ou botão antes de
+usá-lo. O texto é digitado letra por letra, e cada página fica na tela por um instante. No canto da página aparece o
+cenário em execução (por exemplo, `CT01 · RFS01 — incluir pessoa valida`). A suíte completa leva cerca de 3 minutos
+nesse modo.
+
+```bat
+scripts\demonstrar_testes.bat
+scripts\demonstrar_testes.bat tests\selenium\test_ct01_pessoas.py
+scripts\demonstrar_testes.bat -k rfs01
+```
+
+O primeiro comando roda tudo. O segundo roda só um caso de teste, e o terceiro só os cenários de um requisito. Para
+mudar o ritmo, defina antes a pausa em segundos (o padrão é 0.8): `set PAUSA_SELENIUM=1.5`. Sem o modo de demonstração,
+como no `testar.bat` e no GitHub Actions, os testes rodam sem janela e sem pausas. As falhas geram capturas de tela em
 `tests\selenium\saida\`.
 
 ## Estrutura
@@ -60,7 +73,7 @@ app/                   aplicação Flask
   templates/           páginas Jinja2 (escape automático de HTML)
   static/estilo.css    única pasta de arquivos servida
 data/                  esquema.sql, exemplo.sql e o banco local (não versionado)
-scripts/               iniciar, testar e carregar exemplo
+scripts/               iniciar, testar, demonstrar os testes e carregar exemplo
 tests/selenium/        CT01 (pessoas), CT02 (categorias) e CT13 (proteção)
 docs/                  DRE, EST, CRO, MRB, escopo, plano e registros das releases
 requirements.txt       Flask, Selenium e pytest
