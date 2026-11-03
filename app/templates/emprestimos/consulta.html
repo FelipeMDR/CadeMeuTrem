@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p><a class="botao" id="novo-emprestimo" href="{{ url_for('emprestimos.incluir') }}">Incluir empréstimo</a></p>
+
+<form class="filtros" id="filtros" method="get" action="{{ url_for('emprestimos.consultar') }}">
+    <div class="campo">
+        <label for="filtro-pessoa">Pessoa</label>
+        <select id="filtro-pessoa" name="pessoa">
+            <option value="">Todas</option>
+            {% for p in pessoas %}
+                <option value="{{ p.id }}"{% if filtro.pessoa == p.id|string %} selected{% endif %}>{{ p.nome }} ({{ p.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-objeto">Objeto</label>
+        <select id="filtro-objeto" name="objeto">
+            <option value="">Todos</option>
+            {% for o in objetos %}
+                <option value="{{ o.id }}"{% if filtro.objeto == o.id|string %} selected{% endif %}>{{ o.codigo }} – {{ o.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-situacao">Situação</label>
+        <select id="filtro-situacao" name="situacao">
+            <option value="">Todos</option>
+            {% for valor, rotulo in situacoes.items() %}
+                <option value="{{ valor }}"{% if filtro.situacao == valor %} selected{% endif %}>{{ rotulo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" id="pesquisar">Pesquisar</button>
+    <a class="botao secundario" id="limpar-filtros" href="{{ url_for('emprestimos.consultar') }}">Limpar</a>
+</form>
+
+{% if not emprestimos %}
+    <p class="vazio" id="vazio">Nenhum empréstimo encontrado.</p>
+{% else %}
+    <table class="lista" id="lista">
+        <thead><tr><th>Identificador</th><th>Pessoa</th><th>Código</th><th>Objeto</th><th>Retirada</th><th>Previsão</th><th>Devolução</th><th>Situação</th><th>Ações</th></tr></thead>
+        <tbody>
+        {% for e in emprestimos %}
+            <tr data-id="{{ e.id }}">
+                <td class="col-id">{{ e.id }}</td>
+                <td class="col-pessoa">{{ e.pessoa }}</td>
+                <td class="col-codigo">{{ e.codigo }}</td>
+                <td class="col-objeto">{{ e.objeto }}</td>
+                <td class="col-retirada">{{ e.data_retirada | data }}</td>
+                <td class="col-previsao">{{ e.previsao_devolucao | data }}</td>
+                <td class="col-devolucao">{{ e.data_devolucao | data }}</td>
+                <td class="col-situacao">{{ e.situacao }}</td>
+                <td class="acoes">
+                    <a class="acao-detalhar" href="{{ url_for('emprestimos.detalhar', id_=e.id) }}">Detalhar</a>
+                    <a class="acao-alterar" href="{{ url_for('emprestimos.alterar', id_=e.id) }}">Alterar</a>
+                    {% if not e.data_devolucao %}<a class="acao-devolver" href="{{ url_for('emprestimos.devolver', id_=e.id) }}">Devolver</a>{% endif %}
+                    <a class="acao-excluir" href="{{ url_for('emprestimos.excluir', id_=e.id) }}">Excluir</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p class="total" id="total">Empréstimos exibidos: {{ emprestimos | length }}</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<dl class="detalhe" id="dados-emprestimo">
+    <dt>Identificador</dt><dd id="devolver-id">{{ emprestimo.id }}</dd>
+    <dt>Pessoa</dt><dd id="devolver-pessoa">{{ emprestimo.pessoa }}</dd>
+    <dt>Objeto</dt><dd id="devolver-objeto">{{ emprestimo.codigo }} – {{ emprestimo.objeto }}</dd>
+    <dt>Retirada</dt><dd id="devolver-retirada">{{ emprestimo.data_retirada | data }}</dd>
+    <dt>Previsão</dt><dd id="devolver-previsao">{{ emprestimo.previsao_devolucao | data }}</dd>
+</dl>
+{% if devolvido %}
+    <p><a class="botao secundario" id="voltar" href="{{ url_for('emprestimos.consultar') }}">Voltar</a></p>
+{% else %}
+    <form class="formulario" id="formulario" method="post">
+        {{ campos.csrf() }}
+        {{ campos.data('data-devolucao', 'data_devolucao', 'Data da devolução *', data_devolucao) }}
+        <p class="obrigatorios">Confirme a devolução. Depois de registrada, ela não pode ser desfeita.</p>
+        <button type="submit" id="confirmar-devolucao">Confirmar devolução</button>
+        <a class="botao secundario" id="cancelar" href="{{ url_for('emprestimos.consultar') }}">Cancelar</a>
+    </form>
+{% endif %}
+{% endblock %}

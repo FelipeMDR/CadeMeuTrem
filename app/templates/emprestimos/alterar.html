@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<form class="formulario" id="formulario" method="post">
+    {{ campos.csrf() }}
+    {{ campos.identificador(emprestimo.id) }}
+    {{ campos.leitura('pessoa', 'Pessoa', emprestimo.pessoa ~ ' (' ~ emprestimo.pessoa_id ~ ')') }}
+    {{ campos.leitura('objeto', 'Objeto', emprestimo.codigo ~ ' – ' ~ emprestimo.objeto) }}
+    {{ campos.leitura('data-retirada', 'Data da retirada', emprestimo.data_retirada | data) }}
+    {% if emprestimo.data_devolucao %}
+        {{ campos.leitura('data-devolucao', 'Data da devolução', emprestimo.data_devolucao | data) }}
+        {{ campos.leitura('previsao-devolucao', 'Previsão de devolução', dados.previsao) }}
+        <p class="obrigatorios">Empréstimo devolvido: somente a observação pode ser alterada.</p>
+    {% else %}
+        {{ campos.data('previsao-devolucao', 'previsao', 'Previsão de devolução *', dados.previsao) }}
+        <p class="obrigatorios">Campos com * são obrigatórios. Para corrigir pessoa, objeto ou retirada, exclua o
+            lançamento e registre-o de novo; a exclusão o remove do histórico.</p>
+    {% endif %}
+    {{ campos.observacao(dados.observacao, observacao_max) }}
+    <button type="submit" id="salvar">Salvar</button>
+    <a class="botao secundario" id="cancelar" href="{{ url_for('emprestimos.consultar') }}">Cancelar</a>
+</form>
+{% endblock %}

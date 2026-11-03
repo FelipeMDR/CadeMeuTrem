@@ -135,3 +135,4 @@ textarea {
     resize: vertical;
 }
 input.curto { min-width: 140px; width: 180px; }
+input.data { min-width: 0; width: 140px; }

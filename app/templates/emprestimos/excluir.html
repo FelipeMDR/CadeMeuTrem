@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<div class="confirmacao" id="confirmacao">
+    <p>Confirma a exclusão deste empréstimo? O lançamento sairá permanentemente do histórico. A pessoa e o objeto
+        continuam cadastrados.</p>
+    <dl class="detalhe">
+        <dt>Identificador</dt><dd id="confirmar-id">{{ emprestimo.id }}</dd>
+        <dt>Pessoa</dt><dd id="confirmar-pessoa">{{ emprestimo.pessoa }}</dd>
+        <dt>Código do objeto</dt><dd id="confirmar-codigo">{{ emprestimo.codigo }}</dd>
+        <dt>Data da retirada</dt><dd id="confirmar-retirada">{{ emprestimo.data_retirada | data }}</dd>
+    </dl>
+    <form method="post">
+        {{ campos.csrf() }}
+        <button type="submit" class="perigo" id="confirmar-exclusao">Confirmar exclusão</button>
+        <a class="botao secundario" id="cancelar" href="{{ url_for('emprestimos.consultar') }}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
