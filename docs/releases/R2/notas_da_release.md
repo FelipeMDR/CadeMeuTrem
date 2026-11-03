@@ -68,7 +68,7 @@ Na ordem em que o professor avalia (detalhes no [roteiro](../../08_Roteiro_Discu
 - [ ] Revisar o Pull Request da R2 (Antony e Felipe) e registrar a revisão.
 - [ ] Abrir o XML v2.4 no ProjectLibre e salvar o `.pod` ([instruções](acompanhamento_cronograma.md#como-levar-esta-atualização-para-o-arquivo-pod)).
 - [ ] Informar as horas reais das atividades concluídas.
-- [ ] Fazer o merge na `main` e criar a tag `release2` (A13.2).
+- [x] Fazer o merge na `main` e criar a tag `release2` (A13.2), em 03/11.
 - [ ] Demonstrar objetos e empréstimos (A13.3, 03/11).
 
 ## Fora desta release

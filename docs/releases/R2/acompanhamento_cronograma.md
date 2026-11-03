@@ -12,7 +12,7 @@ de lançamento pela dupla. As notas de cada atividade citam o commit e o teste q
 | Release | Trabalho planejado | Atividades concluídas | Observação |
 |---|---|---|---|
 | R1 | 17 h | Todas | A09.2 (PR #17 e tag `release1`, 28/10) e A09.3 (demonstração, 29/10) concluídas; marco M1 atingido. |
-| R2 | 18 h (16 h base + 2 h reserva) | 16 h de 18 h | A10, A11, A12, A13.1 e a reserva B02 concluídas em 03/11. Faltam A13.2 (revisão e tag) e A13.3 (demonstração, antecipada para 03/11). |
+| R2 | 18 h (16 h base + 2 h reserva) | 17 h de 18 h | A10, A11, A12, A13.1, A13.2 e a reserva B02 concluídas em 03/11. Falta A13.3 (demonstração, antecipada para 03/11). |
 | R3 e R4 | 31 h | — | Sem alteração; datas da linha de base mantidas. |
 
 ## Atividades concluídas em 03/11
@@ -26,6 +26,7 @@ de lançamento pela dupla. As notas de cada atividade citam o commit e o teste q
 | A12.3 Registrar resultados | 03/11 | [relatório de testes](relatorio_testes.md): 101/101 aprovados |
 | B02 Reserva de correção R2 | 04/11 | Modo de demonstração dos testes (`da3de8b`) e token CSRF (`503d723`) |
 | A13.1 Atualizar documentos da R2 | 04/11 | DRE 3.2, MRB 2.2, cronograma v2.4, notas, roteiro e evidências |
+| A13.2 Revisar e versionar R2 | 05/11 | PR #20 integrado à `main` e tag `release2` publicada |
 
 A10, A11 e A12.1 terminaram de 1 a 4 dias depois da linha de base. A12.2 e A12.3 terminaram no prazo, e B02 e A13.1
 um dia antes. A apresentação foi antecipada para 03/11 a pedido do professor, dois dias antes do marco M2 (05/11).
