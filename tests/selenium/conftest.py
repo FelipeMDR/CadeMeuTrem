@@ -9,6 +9,7 @@ Variáveis opcionais (scripts\\demonstrar_testes.bat já define a primeira):
                         campo ou botão antes de usá-lo, digita letra por letra, deixa
                         cada página na tela por um instante e mostra o cenário em execução
   PAUSA_SELENIUM=0.8    pausa básica do ritmo de demonstração, em segundos (0 desliga)
+  CHROME_BINARIO=...    caminho do chrome.exe, quando o Selenium não o encontra sozinho
 """
 
 import math
@@ -20,13 +21,16 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+from contextlib import contextmanager
+from datetime import date, datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pytest
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 
 RAIZ = Path(__file__).resolve().parents[2]
 SAIDA = Path(__file__).resolve().parent / "saida"
@@ -45,6 +49,15 @@ caixa.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:9999;max-wi
     + 'background:#212529;color:#fff;font:15px/1.35 sans-serif;border-radius:6px;opacity:.92;pointer-events:none';
 document.body.appendChild(caixa);
 """
+
+
+def hoje() -> date:
+    """Dia atual no mesmo fuso da aplicação (America/Sao_Paulo)."""
+    return datetime.now(ZoneInfo("America/Sao_Paulo")).date()
+
+
+def br(dia: date) -> str:
+    return dia.strftime("%d/%m/%Y")
 
 
 def porta_livre() -> int:
@@ -68,12 +81,13 @@ def banco(tmp_path_factory) -> Path:
     return tmp_path_factory.mktemp("banco") / "teste.sqlite"
 
 
-@pytest.fixture(scope="session")
-def servidor(banco):
+@contextmanager
+def aplicacao_rodando(banco: Path, nome_log: str = "servidor.log"):
+    """Sobe a aplicação Flask com o banco informado e devolve a URL; encerra o processo ao sair."""
     SAIDA.mkdir(exist_ok=True)
     porta = porta_livre()
     ambiente = dict(os.environ, CMT_DB=str(banco))
-    with open(SAIDA / "servidor.log", "w", encoding="utf-8") as log:
+    with open(SAIDA / nome_log, "w", encoding="utf-8") as log:
         processo = subprocess.Popen(
             [sys.executable, "-m", "flask", "--app", "app", "run", "--host", "127.0.0.1", "--port", str(porta)],
             cwd=RAIZ, env=ambiente, stdout=log, stderr=subprocess.STDOUT,
@@ -89,10 +103,18 @@ def servidor(banco):
 
 
 @pytest.fixture(scope="session")
+def servidor(banco):
+    with aplicacao_rodando(banco) as url:
+        yield url
+
+
+@pytest.fixture(scope="session")
 def navegador():
     opcoes = webdriver.ChromeOptions()
     if not MOSTRAR_NAVEGADOR:
         opcoes.add_argument("--headless=new")
+    if os.environ.get("CHROME_BINARIO"):
+        opcoes.binary_location = os.environ["CHROME_BINARIO"]
     opcoes.add_argument("--window-size=1280,900")
     opcoes.add_argument("--no-sandbox")
     opcoes.add_argument("--disable-dev-shm-usage")
@@ -148,10 +170,25 @@ class Banco:
         with self._conectar() as c:
             return c.execute(sql, parametros).lastrowid
 
-    def criar_objeto(self, categoria_id: int, codigo: str = "OBJ001") -> int:
+    def criar_pessoa(self, nome: str, ativo: int = 1) -> int:
+        return self.executar("INSERT INTO pessoa (nome, ativo) VALUES (?, ?)", (nome, ativo))
+
+    def criar_categoria(self, nome: str) -> int:
+        return self.executar("INSERT INTO categoria (nome, nome_chave) VALUES (?, ?)", (nome, nome.strip().lower()))
+
+    def criar_objeto(self, categoria_id: int, codigo: str = "OBJ001", nome: str | None = None, ativo: int = 1) -> int:
         return self.executar(
-            "INSERT INTO objeto (codigo, nome, categoria_id) VALUES (?, ?, ?)",
-            (codigo, f"Objeto {codigo}", categoria_id),
+            "INSERT INTO objeto (codigo, nome, categoria_id, ativo) VALUES (?, ?, ?, ?)",
+            (codigo, nome or f"Objeto {codigo}", categoria_id, ativo),
+        )
+
+    def registrar_emprestimo(self, pessoa_id: int, objeto_id: int, retirada: date, previsao: date,
+                             devolucao: date | None = None) -> int:
+        return self.executar(
+            "INSERT INTO emprestimo (pessoa_id, objeto_id, data_retirada, previsao_devolucao, data_devolucao)"
+            " VALUES (?, ?, ?, ?, ?)",
+            (pessoa_id, objeto_id, retirada.isoformat(), previsao.isoformat(),
+             devolucao.isoformat() if devolucao else None),
         )
 
     def criar_emprestimo(self, pessoa_id: int) -> int:
@@ -282,6 +319,31 @@ class Tela:
         botao = self.elemento(id_)
         self._destacar(botao)
         self._navegar(botao.click)
+
+    def escolher(self, id_: str, texto: str) -> None:
+        """Escolhe uma opção da lista pelo texto exibido."""
+        lista = self.elemento(id_)
+        self._destacar(lista)
+        Select(lista).select_by_visible_text(texto)
+        self._pausar(0.5)
+        self._remover_destaque(lista)
+
+    def opcoes(self, id_: str) -> list[str]:
+        return [opcao.text for opcao in Select(self.elemento(id_)).options]
+
+    def escolhido(self, id_: str) -> str:
+        return Select(self.elemento(id_)).first_selected_option.text
+
+    def forjar_opcao(self, id_: str, valor: str) -> None:
+        """Simula um envio adulterado: acrescenta à lista um valor que ela não oferece e o escolhe."""
+        self.driver.execute_script(
+            "var opcao = document.createElement('option'); opcao.value = arguments[1];"
+            "opcao.text = 'valor forjado'; arguments[0].appendChild(opcao); arguments[0].value = arguments[1];",
+            self.elemento(id_), valor)
+
+    def destravar(self, id_: str) -> None:
+        """Remove o somente leitura de um campo, para verificar que o servidor ignora a alteração."""
+        self.driver.execute_script("arguments[0].removeAttribute('readonly')", self.elemento(id_))
 
     def marcar(self, id_: str) -> None:
         opcao = self.elemento(id_)
