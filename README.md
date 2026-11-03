@@ -13,7 +13,7 @@ quando deve devolvê-lo e o que está atrasado. Trabalho final de Gerência de P
 |---|---|---|---|
 | R0 | 22/10/2026 | Escopo, DRE, EST, CRO, MRB e plano | Entregue · tag `release-0` |
 | R1 | 29/10/2026 | Pessoas, categorias e testes Selenium | Entregue · tag `release1` |
-| R2 | 05/11/2026 | Objetos, empréstimos e devolução | Implementada e testada (101/101) · em revisão |
+| R2 | 03/11/2026 (prevista para 05/11) | Objetos, empréstimos e devolução | Implementada e testada (101/101) · apresentação em 03/11 |
 | R3 | 12/11/2026 | Relatório de pendências e atrasos | Planejada |
 | R4 | 19/11/2026 | Histórico, regressão e pacote final | Planejada |
 

@@ -1,6 +1,6 @@
 # Release 2 — Objetos e empréstimos
 
-**Entrega:** 05/11/2026 · **Branch em andamento:** `dev/release-2` · **Baseline:** tag `release2` (criada após a revisão do PR)
+**Entrega:** 03/11/2026, antecipada a pedido do professor (prevista para 05/11) · **Branch em andamento:** `dev/release-2` · **Baseline:** tag `release2` (criada após a revisão do PR)
 
 ## O que a Aula 22-23 pede e onde está
 
@@ -50,7 +50,7 @@
   formulário que grava leva um token da sessão (CSRF), e envios sem ele são recusados.
 - **Revisão técnica, achado de prioridade baixa:** o caminho do Chrome pode ser informado em `CHROME_BINARIO`.
 
-## Roteiro da demonstração (05/11)
+## Roteiro da demonstração (03/11)
 
 Na ordem em que o professor avalia (detalhes no [roteiro](../../08_Roteiro_Discussao_R2.pdf)):
 
@@ -69,7 +69,7 @@ Na ordem em que o professor avalia (detalhes no [roteiro](../../08_Roteiro_Discu
 - [ ] Abrir o XML v2.4 no ProjectLibre e salvar o `.pod` ([instruções](acompanhamento_cronograma.md#como-levar-esta-atualização-para-o-arquivo-pod)).
 - [ ] Informar as horas reais das atividades concluídas.
 - [ ] Fazer o merge na `main` e criar a tag `release2` (A13.2).
-- [ ] Demonstrar objetos e empréstimos (A13.3, 05/11).
+- [ ] Demonstrar objetos e empréstimos (A13.3, 03/11).
 
 ## Fora desta release
 

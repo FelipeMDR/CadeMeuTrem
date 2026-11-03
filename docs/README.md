@@ -10,7 +10,7 @@
 | Plano resumido | [05_Plano_Resumido.docx](05_Plano_Resumido.docx) · [PDF](05_Plano_Resumido.pdf) | 2.1 (R1, 27/10) |
 | Roteiro da discussão da R0 | [06_Roteiro_Discussao.docx](06_Roteiro_Discussao.docx) · [PDF](06_Roteiro_Discussao.pdf) | 2.0 (R0) |
 | Roteiro da discussão da R1 | [07_Roteiro_Discussao_R1.docx](07_Roteiro_Discussao_R1.docx) · [PDF](07_Roteiro_Discussao_R1.pdf) | 1.1 (R1, 28/10) |
-| Roteiro da discussão da R2 | [08_Roteiro_Discussao_R2.docx](08_Roteiro_Discussao_R2.docx) · [PDF](08_Roteiro_Discussao_R2.pdf) | 1.0 (R2, 03/11) |
+| Roteiro da discussão da R2 | [08_Roteiro_Discussao_R2.docx](08_Roteiro_Discussao_R2.docx) · [PDF](08_Roteiro_Discussao_R2.pdf) | 1.1 (R2, 03/11) |
 | Gestão de riscos | [gestao/Atividade_Riscos_Cade_Meu_Trem.docx](gestao/Atividade_Riscos_Cade_Meu_Trem.docx) | 17/09/2026 |
 | Gerência de configuração | [gerencia_configuracao.md](gerencia_configuracao.md) | R2 |
 

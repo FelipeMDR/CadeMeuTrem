@@ -12,7 +12,7 @@ de lançamento pela dupla. As notas de cada atividade citam o commit e o teste q
 | Release | Trabalho planejado | Atividades concluídas | Observação |
 |---|---|---|---|
 | R1 | 17 h | Todas | A09.2 (PR #17 e tag `release1`, 28/10) e A09.3 (demonstração, 29/10) concluídas; marco M1 atingido. |
-| R2 | 18 h (16 h base + 2 h reserva) | 16 h de 18 h | A10, A11, A12, A13.1 e a reserva B02 concluídas em 03/11. Faltam A13.2 (revisão e tag) e A13.3 (demonstração, 05/11). |
+| R2 | 18 h (16 h base + 2 h reserva) | 16 h de 18 h | A10, A11, A12, A13.1 e a reserva B02 concluídas em 03/11. Faltam A13.2 (revisão e tag) e A13.3 (demonstração, antecipada para 03/11). |
 | R3 e R4 | 31 h | — | Sem alteração; datas da linha de base mantidas. |
 
 ## Atividades concluídas em 03/11
@@ -28,7 +28,7 @@ de lançamento pela dupla. As notas de cada atividade citam o commit e o teste q
 | A13.1 Atualizar documentos da R2 | 04/11 | DRE 3.2, MRB 2.2, cronograma v2.4, notas, roteiro e evidências |
 
 A10, A11 e A12.1 terminaram de 1 a 4 dias depois da linha de base. A12.2 e A12.3 terminaram no prazo, e B02 e A13.1
-um dia antes. O marco M2 (05/11) está mantido.
+um dia antes. A apresentação foi antecipada para 03/11 a pedido do professor, dois dias antes do marco M2 (05/11).
 
 ## Mudanças nesta versão do cronograma
 
