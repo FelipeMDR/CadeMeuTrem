@@ -5,7 +5,7 @@
 | Escopo e EAP | [00_Escopo_EAP_Cade_Meu_Trem.docx](00_Escopo_EAP_Cade_Meu_Trem.docx) · [PDF](00_Escopo_EAP_Cade_Meu_Trem.pdf) | 2.0 (R0) |
 | Documento de Requisitos (DRE) | [01_DRE_Cade_Meu_Trem.docx](01_DRE_Cade_Meu_Trem.docx) · [PDF](01_DRE_Cade_Meu_Trem.pdf) | 3.2 (R2, 03/11) |
 | Estimativa de Tamanho (EST) | [02_EST_Cade_Meu_Trem.xlsx](02_EST_Cade_Meu_Trem.xlsx) | 2.1 (R1, 27/10) |
-| Cronograma (CRO) | [03_CRO_Cade_Meu_Trem.pod](03_CRO_Cade_Meu_Trem.pod) (ProjectLibre) · [XML](03_CRO_Cade_Meu_Trem.xml) | XML 2.4 (acompanhamento R2, 03/11) · `.pod` 2.3 até ser salvo de novo; horas reais pendentes |
+| Cronograma (CRO) | [03_CRO_Cade_Meu_Trem.pod](03_CRO_Cade_Meu_Trem.pod) (ProjectLibre) · [XML](03_CRO_Cade_Meu_Trem.xml) | XML e `.pod` 2.4 (acompanhamento R2, 03/11); horas reais pendentes |
 | Matriz de Rastreabilidade (MRB) | [04_MRB_Cade_Meu_Trem.xlsx](04_MRB_Cade_Meu_Trem.xlsx) | 2.2 (R2, 03/11) |
 | Plano resumido | [05_Plano_Resumido.docx](05_Plano_Resumido.docx) · [PDF](05_Plano_Resumido.pdf) | 2.1 (R1, 27/10) |
 | Roteiro da discussão da R0 | [06_Roteiro_Discussao.docx](06_Roteiro_Discussao.docx) · [PDF](06_Roteiro_Discussao.pdf) | 2.0 (R0) |

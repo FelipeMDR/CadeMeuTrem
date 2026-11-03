@@ -9,7 +9,7 @@
 | 1 | Implementação de mais 2 CRUDs | Feito | Objetos (RFS09 a RFS12) em [`app/objetos.py`](../../../app/objetos.py); empréstimos e devolução (RFS13 a RFS17) em [`app/emprestimos.py`](../../../app/emprestimos.py) |
 | 2 | Teste automatizado dos CRUDs com Selenium | Feito: 101/101 aprovados, 37 da R1 e 64 novos (CT03 18, CT04 14, CT05 9, CT06 17, CT10 3 e mais 3 no CT13) | [`tests/selenium/`](../../../tests/selenium/) e [relatório](relatorio_testes.md) |
 | 3 | Commits de código, DRE e cronograma na branch em andamento | Feito | Histórico da branch `dev/release-2` |
-| 4 | Atualização periódica do cronograma e do DRE, sob controle de versão | XML v2.4 e DRE 3.2 atualizados; falta salvar o `.pod` | [DRE 3.2](../../01_DRE_Cade_Meu_Trem.pdf), [acompanhamento do CRO](acompanhamento_cronograma.md) |
+| 4 | Atualização periódica do cronograma e do DRE, sob controle de versão | Cronograma v2.4 (XML e ProjectLibre) e DRE 3.2 atualizados | [DRE 3.2](../../01_DRE_Cade_Meu_Trem.pdf), [acompanhamento do CRO](acompanhamento_cronograma.md) |
 | 5 | Baseline de gerência de configuração (tag) | Pendente: depois do merge do PR | [Gerência de configuração](../../gerencia_configuracao.md) |
 
 ## Entregue
@@ -66,7 +66,7 @@ Na ordem em que o professor avalia (detalhes no [roteiro](../../08_Roteiro_Discu
 ## Pendências para a dupla
 
 - [ ] Revisar o Pull Request da R2 (Antony e Felipe) e registrar a revisão.
-- [ ] Abrir o XML v2.4 no ProjectLibre e salvar o `.pod` ([instruções](acompanhamento_cronograma.md#como-levar-esta-atualização-para-o-arquivo-pod)).
+- [x] Salvar e conferir o [cronograma v2.4 no ProjectLibre](../../03_CRO_Cade_Meu_Trem.pod).
 - [ ] Informar as horas reais das atividades concluídas.
 - [x] Fazer o merge na `main` e criar a tag `release2` (A13.2), em 03/11.
 - [ ] Demonstrar objetos e empréstimos (A13.3, 03/11).

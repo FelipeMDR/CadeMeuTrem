@@ -33,9 +33,7 @@ um dia antes. A apresentação foi antecipada para 03/11 a pedido do professor, 
 
 ## Mudanças nesta versão do cronograma
 
-- **Responsáveis:** as atividades da R1 em diante passam a ser da dupla, com 50% para cada integrante. O trabalho total de
-  cada atividade não mudou. Na v2.3, A05 a A07 estavam só com Felipe, e as demais só com Antony. A R0 continua como foi
-  entregue.
+- **Responsáveis:** na R2, Felipe responde por objetos (A10), empréstimos e devolução (A11) e correções (B02). Antony responde pelos testes e resultados (A12), documentação, revisão e apresentação (A13). As demais releases seguem as atribuições da v2.3.
 - **Reserva B02:** usada nas correções pedidas depois da R1, e não em retrabalho da R2.
 
 ## Riscos
@@ -51,11 +49,6 @@ um dia antes. A apresentação foi antecipada para 03/11 a pedido do professor, 
 As horas reais **não foram medidas**. A dupla deve informar o tempo gasto em cada atividade concluída antes da
 apresentação. Esse valor alimenta a revisão da produtividade de 2 h/PCU da EST.
 
-## Como levar esta atualização para o arquivo .pod
+## Arquivo do ProjectLibre
 
-1. No ProjectLibre, use **Arquivo › Abrir** e escolha `docs/03_CRO_Cade_Meu_Trem.xml`.
-2. Confira se a linha de base 0 aparece e se a coluna **% físico concluído** mostra 100% nas atividades acima.
-3. Confira na planilha de uso de recursos que cada atividade da R1 em diante tem Antony e Felipe com 50%.
-4. Se tiverem as horas reais, preencha o **Trabalho real** das atividades concluídas.
-5. Use **Arquivo › Salvar como** e substitua `docs/03_CRO_Cade_Meu_Trem.pod`.
-6. Faça o commit na branch em andamento: `git commit -am "CRO: acompanhamento de 03/11 no .pod"`.
+O [cronograma em formato nativo](../../03_CRO_Cade_Meu_Trem.pod) e o XML registram as mesmas atribuições e o mesmo avanço físico.
