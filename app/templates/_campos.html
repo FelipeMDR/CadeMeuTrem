@@ -8,6 +8,9 @@
     </fieldset>
 {% endmacro %}
 
+{# Token contra envio do formulário por outro site (RNF05). #}
+{% macro csrf() %}<input type="hidden" name="token_csrf" value="{{ token_csrf() }}">{% endmacro %}
+
 {% macro identificador(id_) %}
     {% if id_ is not none %}
         <div class="campo">
