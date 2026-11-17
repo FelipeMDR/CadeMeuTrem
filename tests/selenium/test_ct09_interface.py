@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 from conftest import hoje
 
-MENU = ["Início", "Pessoas", "Categorias", "Objetos", "Empréstimos", "Pendências"]
+MENU = ["Início", "Pessoas", "Categorias", "Objetos", "Empréstimos", "Pendências", "Histórico"]
 TELAS = [
     ("/", "Controle de empréstimos de objetos"),
     ("/pessoas/", "Pessoas"),
@@ -19,6 +19,7 @@ TELAS = [
     ("/objetos/", "Objetos"),
     ("/emprestimos/", "Empréstimos"),
     ("/relatorios/pendencias", "Pendências e atrasos"),
+    ("/relatorios/historico", "Histórico de empréstimos"),
 ]
 
 

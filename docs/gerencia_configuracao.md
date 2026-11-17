@@ -50,6 +50,7 @@ Como o código e os documentos do Cadê Meu Trem? são versionados, revisados e 
 | `release1` | Pessoas e categorias em Python + Flask, testes CT01/CT02/CT13, DRE 3.1, EST, CRO e MRB atualizados. | 28/10/2026 |
 | `release2` | Objetos, empréstimos e devolução, testes CT03 a CT06, CT10 e CT13, proteção CSRF, DRE 3.2, MRB 2.2 e CRO v2.4. | 03/11/2026, antes da apresentação da R2 |
 | `release3` | Relatório de pendências e atrasos, objetos sem código (mudança #21), testes CT07, CT09 e CT12, DRE 3.3, MRB 2.3 e CRO v2.5. | 17/11/2026, após a revisão do PR da R3 |
+| `release4` | Entrega final: histórico de empréstimos, regressão (129 cenários), instalação verificada em cópia limpa, manual do usuário, DRE 3.4, MRB 2.4 e CRO v2.6. | 17/11/2026, após a revisão do PR da R4 |
 
 Para consultar uma baseline: `git switch --detach release-0`. Para voltar: `git switch main`.
 

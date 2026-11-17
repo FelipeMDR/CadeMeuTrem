@@ -24,9 +24,9 @@ objeto, a previsão de devolução e a devolução.</p>
         <strong>Pendências</strong>
         <span>O que está emprestado e o que está atrasado.</span>
     </a>
-    <div class="cartao desativado" aria-disabled="true">
+    <a class="cartao" id="ir-historico" href="{{ url_for('relatorios.historico') }}">
         <strong>Histórico</strong>
-        <span>Release 4 (19/11).</span>
-    </div>
+        <span>Retiradas e devoluções de um período.</span>
+    </a>
 </div>
 {% endblock %}

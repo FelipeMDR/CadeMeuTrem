@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% import "_campos.html" as campos %}
+{% block conteudo %}
+<p class="obrigatorios">Empréstimos retirados no período, abertos ou devolvidos. O período inclui as duas datas e
+    considera a data da retirada.</p>
+
+<form class="filtros" id="filtros" method="get" action="{{ url_for('relatorios.historico') }}">
+    {{ campos.data('filtro-inicio', 'inicio', 'Retirada inicial *', filtro.inicio) }}
+    {{ campos.data('filtro-fim', 'fim', 'Retirada final *', filtro.fim) }}
+    <div class="campo">
+        <label for="filtro-pessoa">Pessoa</label>
+        <select id="filtro-pessoa" name="pessoa">
+            <option value="">Todas</option>
+            {% for p in pessoas %}
+                <option value="{{ p.id }}"{% if filtro.pessoa == p.id|string %} selected{% endif %}>{{ p.nome }} ({{ p.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-objeto">Objeto</label>
+        <select id="filtro-objeto" name="objeto">
+            <option value="">Todos</option>
+            {% for o in objetos %}
+                <option value="{{ o.id }}"{% if filtro.objeto == o.id|string %} selected{% endif %}>{{ o.nome }} ({{ o.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-situacao">Situação</label>
+        <select id="filtro-situacao" name="situacao">
+            <option value="">Todos</option>
+            {% for valor, rotulo in situacoes.items() %}
+                <option value="{{ valor }}"{% if filtro.situacao == valor %} selected{% endif %}>{{ rotulo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" id="pesquisar">Pesquisar</button>
+    <a class="botao secundario" id="limpar-filtros" href="{{ url_for('relatorios.historico') }}">Limpar</a>
+</form>
+
+{% if not erros %}
+    {% if not linhas %}
+        <p class="vazio" id="vazio">Nenhum empréstimo encontrado no período.</p>
+    {% else %}
+        <table class="lista" id="lista">
+            <thead><tr><th>Identificador</th><th>Pessoa</th><th>Objeto</th><th>Retirada</th><th>Previsão</th><th>Devolução</th><th>Situação</th></tr></thead>
+            <tbody>
+            {% for e in linhas %}
+                <tr data-id="{{ e.id }}">
+                    <td class="col-id">{{ e.id }}</td>
+                    <td class="col-pessoa">{{ e.pessoa }}</td>
+                    <td class="col-objeto">{{ e.objeto }} ({{ e.objeto_id }})</td>
+                    <td class="col-retirada">{{ e.data_retirada | data }}</td>
+                    <td class="col-previsao">{{ e.previsao_devolucao | data }}</td>
+                    <td class="col-devolucao">{{ e.data_devolucao | data }}</td>
+                    <td class="col-situacao">{{ e.situacao }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <p class="total" id="total">Empréstimos exibidos: {{ linhas | length }}</p>
+    <p class="total" id="total-abertos">Abertos: {{ abertos }}</p>
+    <p class="total" id="total-devolvidos">Devolvidos: {{ devolvidos }}</p>
+{% endif %}
+{% endblock %}

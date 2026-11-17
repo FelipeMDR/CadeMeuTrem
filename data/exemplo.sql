@@ -20,9 +20,14 @@ INSERT INTO objeto (nome, categoria_id, observacao, ativo) VALUES
     ('Panela de pressão', 3, 'Trocar a borracha', 1),
     ('Caixa de som', 4, 'Quebrada, retirada de uso', 0);
 
--- Datas relativas ao dia da carga: um empréstimo aberto no prazo, um aberto vencido e um devolvido.
+-- Datas relativas ao dia da carga: um empréstimo aberto no prazo, um aberto vencido e três devolvidos,
+-- dois deles no mês anterior, para o histórico.
 INSERT INTO emprestimo (pessoa_id, objeto_id, data_retirada, previsao_devolucao, data_devolucao, observacao) VALUES
     (1, 3, date('now', 'localtime', '-2 days'), date('now', 'localtime', '+5 days'), NULL, 'Com maleta'),
     (2, 1, date('now', 'localtime', '-12 days'), date('now', 'localtime', '-2 days'), NULL, NULL),
     (3, 5, date('now', 'localtime', '-20 days'), date('now', 'localtime', '-15 days'),
-        date('now', 'localtime', '-16 days'), 'Devolvida limpa');
+        date('now', 'localtime', '-16 days'), 'Devolvida limpa'),
+    (4, 4, date('now', 'localtime', '-40 days'), date('now', 'localtime', '-33 days'),
+        date('now', 'localtime', '-34 days'), 'Antes de Diego ser inativado'),
+    (1, 2, date('now', 'localtime', '-35 days'), date('now', 'localtime', '-28 days'),
+        date('now', 'localtime', '-30 days'), NULL);
