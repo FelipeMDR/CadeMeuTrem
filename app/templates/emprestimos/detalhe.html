@@ -3,8 +3,7 @@
 <dl class="detalhe" id="detalhe">
     <dt>Identificador</dt><dd id="detalhe-id">{{ emprestimo.id }}</dd>
     <dt>Pessoa</dt><dd id="detalhe-pessoa">{{ emprestimo.pessoa }}</dd>
-    <dt>Código</dt><dd id="detalhe-codigo">{{ emprestimo.codigo }}</dd>
-    <dt>Objeto</dt><dd id="detalhe-objeto">{{ emprestimo.objeto }}</dd>
+    <dt>Objeto</dt><dd id="detalhe-objeto">{{ emprestimo.objeto }} ({{ emprestimo.objeto_id }})</dd>
     <dt>Retirada</dt><dd id="detalhe-retirada">{{ emprestimo.data_retirada | data }}</dd>
     <dt>Previsão</dt><dd id="detalhe-previsao">{{ emprestimo.previsao_devolucao | data }}</dd>
     <dt>Devolução</dt><dd id="detalhe-devolucao">{{ emprestimo.data_devolucao | data }}</dd>

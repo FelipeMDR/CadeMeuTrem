@@ -11,7 +11,7 @@ from conftest import br, hoje
 def preparar(bd):
     categoria = bd.criar_categoria("Ferramentas")
     ana = bd.criar_pessoa("Ana Souza")
-    furadeira = bd.criar_objeto(categoria, "FUR001", "Furadeira")
+    furadeira = bd.criar_objeto(categoria, "Furadeira")
     return ana, furadeira
 
 
@@ -39,13 +39,13 @@ def test_rfs13_segunda_retirada_aberta_do_mesmo_objeto_e_bloqueada(tela, bd):
     bruno = bd.criar_pessoa("Bruno Lima")
     tela.abrir("emprestimos", acao="incluir")
     tela.escolher("pessoa", "Ana Souza (1)")
-    tela.escolher("objeto", "FUR001 – Furadeira")
+    tela.escolher("objeto", "Furadeira (1)")
     tela.preencher("previsao-devolucao", br(hoje()))
     # Outro operador empresta o mesmo objeto antes da gravação.
     bd.registrar_emprestimo(bruno, furadeira, hoje(), hoje())
     tela.clicar("salvar")
 
-    assert tela.erros() == ['O objeto "FUR001" já está emprestado.']
+    assert tela.erros() == ['O objeto "Furadeira" (1) já está emprestado.']
     assert bd.consultar("SELECT COUNT(*) FROM emprestimo") == [(1,)]
 
 
@@ -60,11 +60,11 @@ def test_rfs13_pessoa_inativa_e_bloqueada_na_gravacao(tela, bd):
 
 def test_rfs13_objeto_inativo_e_bloqueado_na_gravacao(tela, bd):
     ana, furadeira = preparar(bd)
-    bd.criar_objeto(1, "SER001", "Serrote")  # mantém o formulário disponível
+    bd.criar_objeto(1, "Serrote")  # mantém o formulário disponível
     bd.executar("UPDATE objeto SET ativo = 0 WHERE id = ?", (furadeira,))
     tentar_incluir(tela, ana, furadeira)
 
-    assert tela.erros() == ['O objeto "FUR001" está inativo e não pode ser emprestado.']
+    assert tela.erros() == ['O objeto "Furadeira" (1) está inativo e não pode ser emprestado.']
     assert bd.consultar("SELECT COUNT(*) FROM emprestimo") == [(0,)]
 
 
@@ -83,7 +83,7 @@ def test_rfs17_devolver_objeto_ativo_permite_nova_retirada(tela, bd):
     tela.abrir("emprestimos")
     tela.clicar_acao(emprestimo, "devolver")
 
-    assert tela.texto("devolver-objeto") == "FUR001 – Furadeira"
+    assert tela.texto("devolver-objeto") == "Furadeira (1)"
     assert tela.valor("data-devolucao") == br(hoje())
     tela.clicar("confirmar-devolucao")
 
@@ -91,7 +91,7 @@ def test_rfs17_devolver_objeto_ativo_permite_nova_retirada(tela, bd):
     assert tela.linhas()[0]["situacao"] == "Devolvido"
     assert tela.linhas()[0]["devolucao"] == br(hoje())
     tela.abrir("emprestimos", acao="incluir")
-    assert tela.opcoes("objeto") == ["Selecione", "FUR001 – Furadeira"]
+    assert tela.opcoes("objeto") == ["Selecione", "Furadeira (1)"]
 
 
 def test_rfs17_objeto_inativo_devolvido_continua_inelegivel(tela, bd):

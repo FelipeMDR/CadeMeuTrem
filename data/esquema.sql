@@ -1,7 +1,6 @@
 -- Cadê Meu Trem? — esquema do banco SQLite (RNF02).
 -- Executado a cada conexão; IF NOT EXISTS mantém os dados existentes.
--- As tabelas objeto e emprestimo já existem na R1 para que as exclusões de
--- pessoa (RFS04) e categoria (RFS08) verifiquem vínculos. Suas telas chegam na R2.
+-- Bancos criados antes da R3 têm a coluna objeto.codigo; app/db.py a remove ao abrir o banco.
 
 CREATE TABLE IF NOT EXISTS pessoa (
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,7 +18,6 @@ CREATE TABLE IF NOT EXISTS categoria (
 
 CREATE TABLE IF NOT EXISTS objeto (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    codigo       TEXT    NOT NULL UNIQUE CHECK (length(codigo) BETWEEN 1 AND 20),
     nome         TEXT    NOT NULL CHECK (length(trim(nome)) BETWEEN 1 AND 80),
     categoria_id INTEGER NOT NULL REFERENCES categoria (id) ON DELETE RESTRICT,
     observacao   TEXT             CHECK (observacao IS NULL OR length(observacao) <= 250),

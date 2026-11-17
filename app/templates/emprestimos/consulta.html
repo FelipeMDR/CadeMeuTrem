@@ -17,7 +17,7 @@
         <select id="filtro-objeto" name="objeto">
             <option value="">Todos</option>
             {% for o in objetos %}
-                <option value="{{ o.id }}"{% if filtro.objeto == o.id|string %} selected{% endif %}>{{ o.codigo }} – {{ o.nome }}</option>
+                <option value="{{ o.id }}"{% if filtro.objeto == o.id|string %} selected{% endif %}>{{ o.nome }} ({{ o.id }})</option>
             {% endfor %}
         </select>
     </div>
@@ -38,14 +38,13 @@
     <p class="vazio" id="vazio">Nenhum empréstimo encontrado.</p>
 {% else %}
     <table class="lista" id="lista">
-        <thead><tr><th>Identificador</th><th>Pessoa</th><th>Código</th><th>Objeto</th><th>Retirada</th><th>Previsão</th><th>Devolução</th><th>Situação</th><th>Ações</th></tr></thead>
+        <thead><tr><th>Identificador</th><th>Pessoa</th><th>Objeto</th><th>Retirada</th><th>Previsão</th><th>Devolução</th><th>Situação</th><th>Ações</th></tr></thead>
         <tbody>
         {% for e in emprestimos %}
             <tr data-id="{{ e.id }}">
                 <td class="col-id">{{ e.id }}</td>
                 <td class="col-pessoa">{{ e.pessoa }}</td>
-                <td class="col-codigo">{{ e.codigo }}</td>
-                <td class="col-objeto">{{ e.objeto }}</td>
+                <td class="col-objeto">{{ e.objeto }} ({{ e.objeto_id }})</td>
                 <td class="col-retirada">{{ e.data_retirada | data }}</td>
                 <td class="col-previsao">{{ e.previsao_devolucao | data }}</td>
                 <td class="col-devolucao">{{ e.data_devolucao | data }}</td>

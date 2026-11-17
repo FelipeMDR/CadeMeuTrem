@@ -29,6 +29,7 @@ from zoneinfo import ZoneInfo
 import pytest
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
@@ -118,7 +119,10 @@ def navegador():
     opcoes.add_argument("--window-size=1280,900")
     opcoes.add_argument("--no-sandbox")
     opcoes.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=opcoes)
+    # Sem os avisos internos do Chrome e do ChromeDriver (GPU, atualizador) misturados à saída do pytest.
+    opcoes.add_experimental_option("excludeSwitches", ["enable-logging"])
+    opcoes.add_argument("--log-level=3")
+    driver = webdriver.Chrome(options=opcoes, service=Service(log_output=subprocess.DEVNULL))
     registrar_ambiente(driver)
     yield driver
     driver.quit()
@@ -176,10 +180,9 @@ class Banco:
     def criar_categoria(self, nome: str) -> int:
         return self.executar("INSERT INTO categoria (nome, nome_chave) VALUES (?, ?)", (nome, nome.strip().lower()))
 
-    def criar_objeto(self, categoria_id: int, codigo: str = "OBJ001", nome: str | None = None, ativo: int = 1) -> int:
+    def criar_objeto(self, categoria_id: int, nome: str = "Objeto", ativo: int = 1) -> int:
         return self.executar(
-            "INSERT INTO objeto (codigo, nome, categoria_id, ativo) VALUES (?, ?, ?, ?)",
-            (codigo, nome or f"Objeto {codigo}", categoria_id, ativo),
+            "INSERT INTO objeto (nome, categoria_id, ativo) VALUES (?, ?, ?)", (nome, categoria_id, ativo)
         )
 
     def registrar_emprestimo(self, pessoa_id: int, objeto_id: int, retirada: date, previsao: date,
@@ -195,7 +198,7 @@ class Banco:
         categoria_id = self.executar(
             "INSERT INTO categoria (nome, nome_chave) VALUES ('Apoio', 'apoio')"
         )
-        objeto_id = self.criar_objeto(categoria_id, "APO001")
+        objeto_id = self.criar_objeto(categoria_id, "Objeto de apoio")
         return self.executar(
             "INSERT INTO emprestimo (pessoa_id, objeto_id, data_retirada, previsao_devolucao)"
             " VALUES (?, ?, '2026-10-20', '2026-10-27')",

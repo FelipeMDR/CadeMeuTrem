@@ -4,7 +4,7 @@
 <dl class="detalhe" id="dados-emprestimo">
     <dt>Identificador</dt><dd id="devolver-id">{{ emprestimo.id }}</dd>
     <dt>Pessoa</dt><dd id="devolver-pessoa">{{ emprestimo.pessoa }}</dd>
-    <dt>Objeto</dt><dd id="devolver-objeto">{{ emprestimo.codigo }} – {{ emprestimo.objeto }}</dd>
+    <dt>Objeto</dt><dd id="devolver-objeto">{{ emprestimo.objeto }} ({{ emprestimo.objeto_id }})</dd>
     <dt>Retirada</dt><dd id="devolver-retirada">{{ emprestimo.data_retirada | data }}</dd>
     <dt>Previsão</dt><dd id="devolver-previsao">{{ emprestimo.previsao_devolucao | data }}</dd>
 </dl>

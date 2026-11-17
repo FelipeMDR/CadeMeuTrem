@@ -12,13 +12,13 @@ INSERT INTO categoria (nome, nome_chave) VALUES
     ('Cozinha', 'cozinha'),
     ('Eletrônicos', 'eletrônicos');
 
-INSERT INTO objeto (codigo, nome, categoria_id, observacao, ativo) VALUES
-    ('LIV001', 'Dom Casmurro', 1, 'Estante da sala', 1),
-    ('LIV002', 'Cálculo volume 1', 1, NULL, 1),
-    ('FUR001', 'Furadeira de impacto', 2, 'Maleta azul com brocas', 1),
-    ('ESC001', 'Escada de 7 degraus', 2, NULL, 1),
-    ('PAN001', 'Panela de pressão', 3, 'Trocar a borracha', 1),
-    ('CAI001', 'Caixa de som', 4, 'Quebrada, retirada de uso', 0);
+INSERT INTO objeto (nome, categoria_id, observacao, ativo) VALUES
+    ('Dom Casmurro', 1, 'Estante da sala', 1),
+    ('Cálculo volume 1', 1, NULL, 1),
+    ('Furadeira de impacto', 2, 'Maleta azul com brocas', 1),
+    ('Escada de 7 degraus', 2, NULL, 1),
+    ('Panela de pressão', 3, 'Trocar a borracha', 1),
+    ('Caixa de som', 4, 'Quebrada, retirada de uso', 0);
 
 -- Datas relativas ao dia da carga: um empréstimo aberto no prazo, um aberto vencido e um devolvido.
 INSERT INTO emprestimo (pessoa_id, objeto_id, data_retirada, previsao_devolucao, data_devolucao, observacao) VALUES
