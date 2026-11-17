@@ -35,7 +35,7 @@
 
 - [ ] Revisar o Pull Request da R3.
 - [ ] Abrir o XML v2.5 no ProjectLibre e salvar o `.pod`.
-- [ ] Fazer o merge na `main` e criar a tag `release3` (A16.2).
+- [x] Fazer o merge na `main` e criar a tag `release3` (A16.2), em 17/11.
 - [ ] Demonstrar com a R4 (A16.3).
 
 ## Fora desta release
