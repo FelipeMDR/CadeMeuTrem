@@ -4,6 +4,7 @@ Diferente da R1, as exclusões com vínculo são feitas pela tela: pessoa, categ
 e objeto referenciados por empréstimos ou objetos cadastrados nesta release.
 """
 
+import shutil
 import sqlite3
 from datetime import timedelta
 
@@ -128,3 +129,26 @@ def test_rnf02_banco_da_r2_com_codigo_e_migrado_sem_perder_dados(navegador, tmp_
         assert "codigo" not in [linha[1] for linha in conexao.execute("PRAGMA table_info(objeto)")]
         assert conexao.execute("SELECT id, nome FROM objeto ORDER BY id").fetchall() == [
             (1, "Furadeira"), (2, "Escada"), (3, "Furadeira")]
+
+
+def test_rnf06_copia_de_seguranca_com_o_sistema_encerrado_restaura_os_dados(navegador, tmp_path):
+    """Procedimento do README: copiar o arquivo .sqlite com o servidor parado e, para restaurar, copiá-lo de volta."""
+    banco, copia = tmp_path / "dados.sqlite", tmp_path / "copia_de_seguranca.sqlite"
+    cenario = "CT10 · RNF06 — copia de seguranca restaura os dados"
+    with aplicacao_rodando(banco, "servidor_ct10.log") as url:
+        cadastrar_pela_tela(Tela(navegador, url, cenario))
+    shutil.copy(banco, copia)
+
+    with aplicacao_rodando(banco, "servidor_ct10.log") as url:
+        tela = Tela(navegador, url, cenario)
+        tela.abrir("emprestimos")
+        tela.clicar_acao(1, "excluir")
+        tela.clicar("confirmar-exclusao")
+        assert tela.texto("vazio") == "Nenhum empréstimo encontrado."
+    shutil.copy(copia, banco)
+
+    with aplicacao_rodando(banco, "servidor_ct10.log") as url:
+        tela = Tela(navegador, url, cenario)
+        tela.abrir("emprestimos")
+        assert [(linha["pessoa"], linha["objeto"], linha["situacao"]) for linha in tela.linhas()] == [
+            ("Ana Souza", "Furadeira (1)", "Aberto")]

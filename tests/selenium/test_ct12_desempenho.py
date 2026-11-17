@@ -9,12 +9,14 @@ from datetime import timedelta
 
 import pytest
 
-from conftest import SAIDA, hoje
+from conftest import SAIDA, br, hoje
 
 LIMITE_MS = 2000
 CONSULTAS = [
     ("Pendências, sem filtros", "relatorios/pendencias", {}),
     ("Pendências, somente atrasados", "relatorios/pendencias", {"atrasados": "1"}),
+    ("Histórico, últimos 30 dias", "relatorios/historico", {"inicio": br(hoje() - timedelta(days=30)), "fim": br(hoje())}),
+    ("Histórico, últimos 60 dias", "relatorios/historico", {"inicio": br(hoje() - timedelta(days=60)), "fim": br(hoje())}),
 ]
 
 
