@@ -1,4 +1,8 @@
-"""Manter objetos — RFS09 Incluir, RFS10 Alterar, RFS11 Consultar e RFS12 Excluir objeto."""
+"""Manter objetos — RFS09 Incluir, RFS10 Alterar, RFS11 Consultar e RFS12 Excluir objeto.
+
+Cada unidade física tem cadastro próprio e é identificada pelo identificador gerado pelo
+sistema; nomes iguais são permitidos (duas furadeiras são dois objetos).
+"""
 
 import sqlite3
 
@@ -10,11 +14,10 @@ from .valida import escapar_like, minusculas, texto_limpo, validar_texto, valor_
 
 bp = Blueprint("objetos", __name__, url_prefix="/objetos")
 
-CODIGO_MAX = 20
 NOME_MAX = 80
 OBSERVACAO_MAX = 250
-CODIGO_DUPLICADO = "Já existe um objeto com este código."
 SEM_CATEGORIAS = "Não há categorias cadastradas. Cadastre uma categoria antes de incluir objetos."
+CATEGORIA_INEXISTENTE = "A categoria selecionada não está cadastrada. Escolha uma categoria da lista."
 
 MENSAGENS = {
     "incluido": "Objeto cadastrado com sucesso.",
@@ -26,7 +29,7 @@ MENSAGENS = {
 DISPONIBILIDADES = {"disponivel": "Disponível", "emprestado": "Emprestado", "inativo": "Inativo"}
 SQL_OBJETOS = """
     SELECT * FROM (
-        SELECT o.id, o.codigo, o.nome, o.observacao, o.ativo, o.categoria_id, c.nome AS categoria,
+        SELECT o.id, o.nome, o.observacao, o.ativo, o.categoria_id, c.nome AS categoria,
                CASE WHEN EXISTS (SELECT 1 FROM emprestimo e WHERE e.objeto_id = o.id AND e.data_devolucao IS NULL)
                         THEN 'Emprestado'
                     WHEN o.ativo = 1 THEN 'Disponível'
@@ -34,11 +37,6 @@ SQL_OBJETOS = """
         FROM objeto o JOIN categoria c ON c.id = o.categoria_id
     ) AS objetos
 """
-
-
-def normalizar_codigo(valor: str) -> str:
-    """" fur001 " e "FUR001" são o mesmo código."""
-    return texto_limpo(valor).upper()
 
 
 def buscar(id_: int):
@@ -62,7 +60,6 @@ def nao_encontrado():
 def ler_formulario() -> dict:
     """Lê o formulário mantendo o que foi digitado, para reapresentar em caso de erro."""
     return {
-        "codigo": normalizar_codigo(request.form.get("codigo")),
         "nome": texto_limpo(request.form.get("nome")),
         "categoria": texto_limpo(request.form.get("categoria")),
         "observacao": texto_limpo(request.form.get("observacao")),
@@ -70,38 +67,27 @@ def ler_formulario() -> dict:
     }
 
 
-def validar(dados: dict, ignorar_id: int | None) -> list[str]:
-    erro_codigo = validar_texto(dados["codigo"], "Código", CODIGO_MAX, True)
-    if erro_codigo is None and codigo_em_uso(dados["codigo"], ignorar_id):
-        erro_codigo = CODIGO_DUPLICADO
-    erros = [erro_codigo, validar_texto(dados["nome"], "Nome", NOME_MAX, True)]
+def validar(dados: dict) -> list[str]:
+    erros = [validar_texto(dados["nome"], "Nome", NOME_MAX, True)]
     if dados["categoria"] == "":
         erros.append("Categoria é obrigatória.")
     else:
         id_categoria = ler_identificador(dados["categoria"])
         if id_categoria is None or db.consultar_um("SELECT 1 FROM categoria WHERE id = ?", (id_categoria,)) is None:
-            erros.append("A categoria selecionada não está cadastrada. Escolha uma categoria da lista.")
+            erros.append(CATEGORIA_INEXISTENTE)
     erros.append(validar_texto(dados["observacao"], "Observação", OBSERVACAO_MAX, False))
     if valor_sim_nao(dados["ativo"]) is None:
         erros.append("Ativo deve ser Sim ou Não.")
     return [erro for erro in erros if erro]
 
 
-def codigo_em_uso(codigo: str, ignorar_id: int | None) -> bool:
-    """Na alteração, o próprio objeto não conta como duplicidade (RFS10)."""
-    return db.consultar_um("SELECT 1 FROM objeto WHERE codigo = ? AND id IS NOT ? LIMIT 1",
-                           (codigo, ignorar_id)) is not None
-
-
 def gravar(sql: str, parametros: tuple) -> list[str]:
-    """Grava e traduz a violação de unicidade do código na mensagem de duplicidade."""
+    """Grava; a categoria removida entre a validação e a gravação vira mensagem, não erro do banco."""
     try:
         db.conexao().execute(sql, parametros)
     except sqlite3.IntegrityError as erro:
-        if db.eh_violacao_unicidade(erro):
-            return [CODIGO_DUPLICADO]
         if "FOREIGN KEY" in str(erro):
-            return ["A categoria selecionada não está cadastrada. Escolha uma categoria da lista."]
+            return [CATEGORIA_INEXISTENTE]
         raise
     return []
 
@@ -109,12 +95,11 @@ def gravar(sql: str, parametros: tuple) -> list[str]:
 def formulario(objeto, dados: dict, erros: list[str]):
     return render_template("objetos/formulario.html", titulo="Incluir objeto" if objeto is None else "Alterar objeto",
                            pagina_atual="objetos", objeto=objeto, dados=dados, erros=erros, categorias=categorias(),
-                           codigo_max=CODIGO_MAX, nome_max=NOME_MAX, observacao_max=OBSERVACAO_MAX)
+                           nome_max=NOME_MAX, observacao_max=OBSERVACAO_MAX)
 
 
 def parametros_gravacao(dados: dict) -> tuple:
-    return (dados["codigo"], dados["nome"], int(dados["categoria"]), dados["observacao"] or None,
-            valor_sim_nao(dados["ativo"]))
+    return (dados["nome"], int(dados["categoria"]), dados["observacao"] or None, valor_sim_nao(dados["ativo"]))
 
 
 # ---------------------------------------------------------------- RFS11
@@ -122,7 +107,6 @@ def parametros_gravacao(dados: dict) -> tuple:
 @bp.get("/")
 def consultar():
     filtro = {
-        "codigo": normalizar_codigo(request.args.get("codigo")),
         "nome": texto_limpo(request.args.get("nome")),
         "categoria": request.args.get("categoria", ""),
         "ativo": request.args.get("ativo", ""),
@@ -136,15 +120,11 @@ def consultar():
     if filtro["disponibilidade"] not in ("", *DISPONIBILIDADES):
         filtro["disponibilidade"] = ""
 
-    erro_filtro = (validar_texto(filtro["codigo"], "O filtro Código", CODIGO_MAX, False)
-                   or validar_texto(filtro["nome"], "O filtro Nome", NOME_MAX, False))
+    erro_filtro = validar_texto(filtro["nome"], "O filtro Nome", NOME_MAX, False)
     objetos = []
     if erro_filtro is None:
         sql = SQL_OBJETOS + " WHERE 1 = 1"
         parametros = []
-        if filtro["codigo"]:
-            sql += " AND codigo = ?"
-            parametros.append(filtro["codigo"])
         if filtro["nome"]:
             sql += " AND minusculas(nome) LIKE ? ESCAPE '\\'"
             parametros.append(f"%{escapar_like(minusculas(filtro['nome']))}%")
@@ -157,13 +137,13 @@ def consultar():
         if filtro["disponibilidade"]:
             sql += " AND disponibilidade = ?"
             parametros.append(DISPONIBILIDADES[filtro["disponibilidade"]])
-        sql += " ORDER BY chave_ordenacao(nome), codigo, id"
+        sql += " ORDER BY chave_ordenacao(nome), id"
         objetos = db.consultar(sql, parametros)
 
     return render_template("objetos/consulta.html", titulo="Objetos", pagina_atual="objetos", objetos=objetos,
                            filtro=filtro, categorias=categorias(), disponibilidades=DISPONIBILIDADES,
-                           codigo_max=CODIGO_MAX, nome_max=NOME_MAX,
-                           mensagem=MENSAGENS.get(request.args.get("ok", "")), mensagem_erro=erro_filtro)
+                           nome_max=NOME_MAX, mensagem=MENSAGENS.get(request.args.get("ok", "")),
+                           mensagem_erro=erro_filtro)
 
 
 @bp.get("/<int:id_>")
@@ -183,11 +163,10 @@ def incluir():
         return render_template("objetos/sem_categorias.html", titulo="Incluir objeto", pagina_atual="objetos",
                                mensagem_erro=SEM_CATEGORIAS)
     if request.method == "GET":
-        return formulario(None, {"codigo": "", "nome": "", "categoria": "", "observacao": "", "ativo": "1"}, [])
+        return formulario(None, {"nome": "", "categoria": "", "observacao": "", "ativo": "1"}, [])
     dados = ler_formulario()
-    erros = validar(dados, None) or gravar(
-        "INSERT INTO objeto (codigo, nome, categoria_id, observacao, ativo) VALUES (?, ?, ?, ?, ?)",
-        parametros_gravacao(dados))
+    erros = validar(dados) or gravar(
+        "INSERT INTO objeto (nome, categoria_id, observacao, ativo) VALUES (?, ?, ?, ?)", parametros_gravacao(dados))
     if erros:
         return formulario(None, dados, erros)
     return redirect(url_for("objetos.consultar", ok="incluido"), 303)
@@ -199,13 +178,12 @@ def alterar(id_: int):
     if objeto is None:
         return nao_encontrado()
     if request.method == "GET":
-        return formulario(objeto, {"codigo": objeto["codigo"], "nome": objeto["nome"],
-                                   "categoria": str(objeto["categoria_id"]), "observacao": objeto["observacao"] or "",
-                                   "ativo": str(objeto["ativo"])}, [])
+        return formulario(objeto, {"nome": objeto["nome"], "categoria": str(objeto["categoria_id"]),
+                                   "observacao": objeto["observacao"] or "", "ativo": str(objeto["ativo"])}, [])
     dados = ler_formulario()
     # Identificador e Disponibilidade não são alterados. Inativar não encerra o empréstimo aberto.
-    erros = validar(dados, id_) or gravar(
-        "UPDATE objeto SET codigo = ?, nome = ?, categoria_id = ?, observacao = ?, ativo = ? WHERE id = ?",
+    erros = validar(dados) or gravar(
+        "UPDATE objeto SET nome = ?, categoria_id = ?, observacao = ?, ativo = ? WHERE id = ?",
         (*parametros_gravacao(dados), id_))
     if erros:
         return formulario(objeto, dados, erros)
@@ -233,7 +211,7 @@ def excluir(id_: int):
 
     erro = None
     if bloqueado:
-        erro = (f'O objeto "{objeto["codigo"]} – {objeto["nome"]}" possui empréstimos registrados e não pode ser '
-                "excluído. Ele pode ser inativado em Alterar objeto.")
+        erro = (f'O objeto "{objeto["nome"]}" (identificador {objeto["id"]}) possui empréstimos registrados e não '
+                "pode ser excluído. Ele pode ser inativado em Alterar objeto.")
     return render_template("objetos/excluir.html", titulo="Excluir objeto", pagina_atual="objetos",
                            objeto=objeto, bloqueado=bloqueado, mensagem_erro=erro)

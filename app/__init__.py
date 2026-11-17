@@ -5,11 +5,11 @@ Execução local: flask --app app run --host 127.0.0.1 --port 8000
 
 from flask import Flask, render_template, url_for
 
-from . import categorias, datas, db, emprestimos, objetos, pessoas, protecao
+from . import categorias, datas, db, emprestimos, objetos, pessoas, protecao, relatorios
 from .telas import pagina_nao_encontrada, sim_nao
 
 NOME_SISTEMA = "Cadê Meu Trem?"
-VERSAO_SISTEMA = "Release 2"
+VERSAO_SISTEMA = "Release 3"
 
 
 def create_app() -> Flask:
@@ -17,7 +17,7 @@ def create_app() -> Flask:
     app.config["BANCO"] = db.caminho_banco()
     db.iniciar(app)
     protecao.iniciar(app)
-    for modulo in (pessoas, categorias, objetos, emprestimos):
+    for modulo in (pessoas, categorias, objetos, emprestimos, relatorios):
         app.register_blueprint(modulo.bp)
     app.jinja_env.filters["data"] = datas.formatar
 

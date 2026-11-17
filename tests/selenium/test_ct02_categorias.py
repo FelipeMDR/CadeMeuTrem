@@ -94,12 +94,12 @@ def test_rfs06_alteracao_aplica_as_mesmas_validacoes(tela, bd):
 
 def test_rfs06_renomear_mantem_vinculo_com_objetos(tela, bd):
     categoria_id = bd.executar("INSERT INTO categoria (nome, nome_chave) VALUES ('Ferramenta', 'ferramenta')")
-    bd.criar_objeto(categoria_id, "FUR001")
+    objeto_id = bd.criar_objeto(categoria_id, "Furadeira")
     alterar_categoria(tela, categoria_id, "Ferramentas")
 
     assert tela.mensagem() == "Categoria alterada com sucesso."
     assert bd.consultar(
-        "SELECT c.id, c.nome FROM objeto o JOIN categoria c ON c.id = o.categoria_id WHERE o.codigo = 'FUR001'"
+        "SELECT c.id, c.nome FROM objeto o JOIN categoria c ON c.id = o.categoria_id WHERE o.id = ?", (objeto_id,)
     ) == [(categoria_id, "Ferramentas")]
 
 
@@ -157,7 +157,7 @@ def test_rfs08_confirmar_exclusao_remove_somente_a_categoria(tela, bd):
 
 def test_rfs08_exclusao_bloqueada_quando_ha_objeto(tela, bd):
     categoria_id = bd.executar("INSERT INTO categoria (nome, nome_chave) VALUES ('Esporte', 'esporte')")
-    bd.criar_objeto(categoria_id, "BOL001")
+    bd.criar_objeto(categoria_id, "Bola")
     tela.abrir("categorias")
     tela.clicar_acao(categoria_id, "excluir")
 

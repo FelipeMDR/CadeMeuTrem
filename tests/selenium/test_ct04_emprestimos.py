@@ -11,9 +11,9 @@ def preparar(bd):
     ana = bd.criar_pessoa("Ana Souza")
     bd.criar_pessoa("Bruno Lima")
     bd.criar_pessoa("Carla Dias", ativo=0)
-    furadeira = bd.criar_objeto(ferramentas, "FUR001", "Furadeira")
-    bd.criar_objeto(ferramentas, "SER001", "Serrote", ativo=0)
-    escada = bd.criar_objeto(ferramentas, "ESC001", "Escada")
+    furadeira = bd.criar_objeto(ferramentas, "Furadeira")
+    bd.criar_objeto(ferramentas, "Serrote", ativo=0)
+    escada = bd.criar_objeto(ferramentas, "Escada")
     bd.registrar_emprestimo(ana, escada, hoje() - timedelta(days=3), hoje() + timedelta(days=4))
     return ana, furadeira
 
@@ -41,15 +41,15 @@ def emprestimos_no_banco(bd):
 def test_rfs13_incluir_emprestimo_valido(tela, bd):
     preparar(bd)
     retirada, previsao = hoje() - timedelta(days=1), hoje() + timedelta(days=6)
-    incluir_emprestimo(tela, "Bruno Lima (2)", "FUR001 – Furadeira", br(retirada), br(previsao), "Com maleta")
+    incluir_emprestimo(tela, "Bruno Lima (2)", "Furadeira (1)", br(retirada), br(previsao), "Com maleta")
 
     assert tela.mensagem() == "Empréstimo registrado com sucesso."
     linha = tela.linhas()[0]
-    assert linha == {"id": 2, "pessoa": "Bruno Lima", "codigo": "FUR001", "objeto": "Furadeira",
+    assert linha == {"id": 2, "pessoa": "Bruno Lima", "objeto": "Furadeira (1)",
                      "retirada": br(retirada), "previsao": br(previsao), "devolucao": "", "situacao": "Aberto"}
     assert emprestimos_no_banco(bd)[-1] == (2, 2, 1, retirada.isoformat(), previsao.isoformat(), None, "Com maleta")
 
-    tela.abrir("objetos", codigo="FUR001")
+    tela.abrir("objetos", nome="Furadeira")
     assert tela.linhas()[0]["disponibilidade"] == "Emprestado"
 
 
@@ -61,23 +61,23 @@ def test_rfs13_valores_iniciais_e_listas_somente_com_elegiveis(tela, bd):
     assert tela.valor("previsao-devolucao") == ""
     # Pessoa inativa, objeto inativo e objeto emprestado não aparecem.
     assert tela.opcoes("pessoa") == ["Selecione", "Ana Souza (1)", "Bruno Lima (2)"]
-    assert tela.opcoes("objeto") == ["Selecione", "FUR001 – Furadeira"]
+    assert tela.opcoes("objeto") == ["Selecione", "Furadeira (1)"]
 
 
 def test_rfs13_homonimos_distinguidos_pelo_identificador(tela, bd):
     preparar(bd)
     bd.criar_pessoa("Bruno Lima")
-    incluir_emprestimo(tela, "Bruno Lima (4)", "FUR001 – Furadeira", previsao=br(hoje()))
+    incluir_emprestimo(tela, "Bruno Lima (4)", "Furadeira (1)", previsao=br(hoje()))
     assert bd.consultar("SELECT pessoa_id FROM emprestimo WHERE objeto_id = 1") == [(4,)]
 
 
 def test_rfs13_obrigatorios_preservam_dados_digitados(tela, bd):
     preparar(bd)
-    incluir_emprestimo(tela, None, "FUR001 – Furadeira", "", "", "Levar à oficina")
+    incluir_emprestimo(tela, None, "Furadeira (1)", "", "", "Levar à oficina")
 
     assert tela.erros() == ["Pessoa é obrigatória.", "Data da retirada é obrigatória.",
                             "Previsão de devolução é obrigatória."]
-    assert tela.escolhido("objeto") == "FUR001 – Furadeira"
+    assert tela.escolhido("objeto") == "Furadeira (1)"
     assert tela.valor("observacao") == "Levar à oficina"
     assert len(emprestimos_no_banco(bd)) == 1
 
@@ -102,7 +102,7 @@ def test_rfs14_alterar_previsao_e_observacao(tela, bd):
     for campo in ("identificador", "pessoa", "objeto", "data-retirada"):
         assert tela.elemento(campo).get_attribute("readonly") is not None, campo
     assert tela.valor("pessoa") == "Ana Souza (1)"
-    assert tela.valor("objeto") == "ESC001 – Escada"
+    assert tela.valor("objeto") == "Escada (3)"
     nova_previsao = hoje() + timedelta(days=10)
     tela.preencher("previsao-devolucao", br(nova_previsao))
     tela.preencher("observacao", "Prazo estendido")
@@ -117,7 +117,7 @@ def test_rfs14_pessoa_objeto_e_retirada_nao_sao_alterados(tela, bd):
     preparar(bd)
     antes = emprestimos_no_banco(bd)
     tela.abrir("emprestimos", acao="alterar", id_=1)
-    for campo, valor in (("pessoa", "Bruno Lima (2)"), ("objeto", "FUR001 – Furadeira"),
+    for campo, valor in (("pessoa", "Bruno Lima (2)"), ("objeto", "Furadeira (1)"),
                          ("data-retirada", br(hoje()))):
         tela.destravar(campo)
         tela.preencher(campo, valor)
@@ -150,7 +150,7 @@ def preparar_consulta(bd):
     categoria = bd.criar_categoria("Livros")
     ana = bd.criar_pessoa("Ana Souza")
     davi = bd.criar_pessoa("Davi Melo", ativo=0)
-    livros = [bd.criar_objeto(categoria, f"LIV00{n}", f"Livro {n}") for n in range(1, 4)]
+    livros = [bd.criar_objeto(categoria, f"Livro {n}") for n in range(1, 4)]
     base = hoje() - timedelta(days=20)
     bd.registrar_emprestimo(ana, livros[0], base, base + timedelta(days=5), devolucao=base + timedelta(days=4))
     bd.registrar_emprestimo(davi, livros[1], base + timedelta(days=10), base + timedelta(days=12))
@@ -187,7 +187,7 @@ def test_rfs15_detalhe_inclui_observacao(tela, bd):
     tela.abrir("emprestimos")
     tela.clicar_acao(1, "detalhar")
     assert tela.texto("detalhe-pessoa") == "Ana Souza"
-    assert tela.texto("detalhe-codigo") == "ESC001"
+    assert tela.texto("detalhe-objeto") == "Escada (3)"
     assert tela.texto("detalhe-situacao") == "Aberto"
     assert tela.texto("detalhe-observacao") == "Escada de 7 degraus"
 
@@ -200,7 +200,7 @@ def test_rfs16_cancelar_exclusao_preserva_emprestimo(tela, bd):
     tela.clicar_acao(1, "excluir")
 
     assert tela.texto("confirmar-pessoa") == "Ana Souza"
-    assert tela.texto("confirmar-codigo") == "ESC001"
+    assert tela.texto("confirmar-objeto") == "Escada (3)"
     assert tela.texto("confirmar-retirada") == br(hoje() - timedelta(days=3))
     assert "sairá permanentemente do histórico" in tela.texto("confirmacao")
     tela.clicar("cancelar")
@@ -217,7 +217,7 @@ def test_rfs16_confirmar_exclusao_preserva_pessoa_e_objeto_e_libera_objeto(tela,
     assert tela.texto("vazio") == "Nenhum empréstimo encontrado."
     assert bd.consultar("SELECT COUNT(*) FROM pessoa") == [(3,)]
     assert bd.consultar("SELECT COUNT(*) FROM objeto") == [(3,)]
-    tela.abrir("objetos", codigo="ESC001")
+    tela.abrir("objetos", nome="Escada")
     assert tela.linhas()[0]["disponibilidade"] == "Disponível"
 
 
@@ -230,5 +230,5 @@ def test_rfs16_excluir_historico_antigo_nao_libera_objeto_com_emprestimo_aberto(
     tela.clicar_acao(antigo, "excluir")
     tela.clicar("confirmar-exclusao")
 
-    tela.abrir("objetos", codigo="FUR001")
+    tela.abrir("objetos", nome="Furadeira")
     assert tela.linhas()[0]["disponibilidade"] == "Emprestado"

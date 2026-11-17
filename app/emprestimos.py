@@ -23,7 +23,7 @@ MENSAGENS = {
 }
 
 SQL_EMPRESTIMOS = """
-    SELECT e.id, e.pessoa_id, p.nome AS pessoa, e.objeto_id, o.codigo, o.nome AS objeto,
+    SELECT e.id, e.pessoa_id, p.nome AS pessoa, e.objeto_id, o.nome AS objeto,
            e.data_retirada, e.previsao_devolucao, e.data_devolucao, e.observacao,
            CASE WHEN e.data_devolucao IS NULL THEN 'Aberto' ELSE 'Devolvido' END AS situacao
     FROM emprestimo e
@@ -31,10 +31,10 @@ SQL_EMPRESTIMOS = """
     JOIN objeto o ON o.id = e.objeto_id
 """
 SQL_OBJETOS_DISPONIVEIS = """
-    SELECT o.id, o.codigo, o.nome FROM objeto o
+    SELECT o.id, o.nome FROM objeto o
     WHERE o.ativo = 1
       AND NOT EXISTS (SELECT 1 FROM emprestimo e WHERE e.objeto_id = o.id AND e.data_devolucao IS NULL)
-    ORDER BY chave_ordenacao(o.nome), o.codigo, o.id
+    ORDER BY chave_ordenacao(o.nome), o.id
 """
 
 
@@ -103,7 +103,7 @@ def consultar():
         "emprestimos/consulta.html", titulo="Empréstimos", pagina_atual="emprestimos",
         emprestimos=db.consultar(sql, parametros), filtro=filtro, situacoes=SITUACOES,
         pessoas=db.consultar("SELECT id, nome FROM pessoa ORDER BY chave_ordenacao(nome), id"),
-        objetos=db.consultar("SELECT id, codigo, nome FROM objeto ORDER BY chave_ordenacao(nome), codigo, id"),
+        objetos=db.consultar("SELECT id, nome FROM objeto ORDER BY chave_ordenacao(nome), id"),
         mensagem=MENSAGENS.get(request.args.get("ok", "")))
 
 
@@ -151,15 +151,15 @@ def validar_inclusao(conexao, dados: dict) -> list[str]:
         erros.append("Objeto é obrigatório.")
     else:
         objeto = conexao.execute(
-            "SELECT codigo, ativo, EXISTS (SELECT 1 FROM emprestimo e WHERE e.objeto_id = o.id"
+            "SELECT id, nome, ativo, EXISTS (SELECT 1 FROM emprestimo e WHERE e.objeto_id = o.id"
             " AND e.data_devolucao IS NULL) AS emprestado FROM objeto o WHERE id = ?",
             (ler_identificador(dados["objeto"]) or 0,)).fetchone()
         if objeto is None:
             erros.append("O objeto selecionado não está cadastrado.")
         elif objeto["emprestado"]:
-            erros.append(f'O objeto "{objeto["codigo"]}" já está emprestado.')
+            erros.append(f'O objeto "{objeto["nome"]}" ({objeto["id"]}) já está emprestado.')
         elif not objeto["ativo"]:
-            erros.append(f'O objeto "{objeto["codigo"]}" está inativo e não pode ser emprestado.')
+            erros.append(f'O objeto "{objeto["nome"]}" ({objeto["id"]}) está inativo e não pode ser emprestado.')
 
     retirada, erro = datas.ler(dados["data_retirada"], "Data da retirada")
     if erro is None and retirada > datas.hoje():

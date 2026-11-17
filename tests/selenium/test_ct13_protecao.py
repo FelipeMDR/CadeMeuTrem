@@ -8,13 +8,13 @@ from datetime import timedelta
 from conftest import br, hoje
 
 PARAMETROS_INVALIDOS = ("?ok=x&ok=y&ativo=talvez&ativo=1&nome=&nome=zz&categoria=abc&disponibilidade=quebrado"
-                        "&pessoa=-1&objeto=99999999999999999999&situacao=talvez")
+                        "&pessoa=-1&objeto=99999999999999999999&situacao=talvez&atrasados=talvez")
 
 
 def test_rnf05_parametros_repetidos_ou_invalidos_sao_ignorados(tela, bd):
     bd.executar("INSERT INTO pessoa (nome) VALUES ('Olga Reis')")
-    for pagina in ("pessoas", "categorias", "objetos", "emprestimos"):
-        tela.ir(f"/{pagina}/{PARAMETROS_INVALIDOS}")
+    for pagina in ("pessoas/", "categorias/", "objetos/", "emprestimos/", "relatorios/pendencias"):
+        tela.ir(f"/{pagina}{PARAMETROS_INVALIDOS}")
         assert tela.existe("filtros"), f"a consulta de {pagina} não foi exibida"
         assert tela.mensagem() == ""
     tela.abrir("pessoas", ativo="talvez")
@@ -33,7 +33,6 @@ def test_rnf05_texto_com_html_e_aspas_e_exibido_como_texto(tela, bd):
     bd.criar_pessoa("Ana Souza")
     nome = '<script>document.title="x"</script> Fura\'deira "grande"'
     tela.abrir("objetos", acao="incluir")
-    tela.preencher("codigo", "FUR001")
     tela.preencher("nome", nome)
     tela.escolher("categoria", f"Ferramentas ({categoria})")
     tela.preencher("observacao", "<b>frágil</b>")
@@ -42,22 +41,22 @@ def test_rnf05_texto_com_html_e_aspas_e_exibido_como_texto(tela, bd):
 
     tela.abrir("emprestimos", acao="incluir")
     tela.escolher("pessoa", "Ana Souza (1)")
-    tela.escolher("objeto", f"FUR001 – {nome}")
+    tela.escolher("objeto", f"{nome} (1)")
     tela.preencher("previsao-devolucao", br(hoje() + timedelta(days=1)))
     tela.preencher("observacao", '<img src=x onerror="document.title=1">')
     tela.clicar("salvar")
     tela.clicar_acao(1, "detalhar")
-    assert tela.texto("detalhe-objeto") == nome
+    assert tela.texto("detalhe-objeto") == f"{nome} (1)"
     assert tela.texto("detalhe-observacao") == '<img src=x onerror="document.title=1">'
     assert tela.driver.title == "Detalhe do empréstimo — Cadê Meu Trem?"
 
 
 def test_rnf05_observacao_do_emprestimo_acima_do_limite_e_recusada(tela, bd):
-    bd.criar_objeto(bd.criar_categoria("Livros"), "LIV001", "Iracema")
+    bd.criar_objeto(bd.criar_categoria("Livros"), "Iracema")
     bd.criar_pessoa("Ana Souza")
     tela.abrir("emprestimos", acao="incluir")
     tela.escolher("pessoa", "Ana Souza (1)")
-    tela.escolher("objeto", "LIV001 – Iracema")
+    tela.escolher("objeto", "Iracema (1)")
     tela.preencher("previsao-devolucao", br(hoje()))
     tela.preencher("observacao", "O" * 251, ignorar_limite=True)
     tela.clicar("salvar")

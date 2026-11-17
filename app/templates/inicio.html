@@ -20,9 +20,13 @@ objeto, a previsão de devolução e a devolução.</p>
         <strong>Empréstimos</strong>
         <span>Retiradas, previsões e devoluções.</span>
     </a>
+    <a class="cartao" id="ir-pendencias" href="{{ url_for('relatorios.pendencias') }}">
+        <strong>Pendências</strong>
+        <span>O que está emprestado e o que está atrasado.</span>
+    </a>
     <div class="cartao desativado" aria-disabled="true">
-        <strong>Pendências e histórico</strong>
-        <span>Releases 3 e 4 (12/11 e 19/11).</span>
+        <strong>Histórico</strong>
+        <span>Release 4 (19/11).</span>
     </div>
 </div>
 {% endblock %}

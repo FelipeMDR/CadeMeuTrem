@@ -18,7 +18,7 @@
         <select id="objeto" name="objeto">
             <option value="">Selecione</option>
             {% for o in objetos %}
-                <option value="{{ o.id }}"{% if dados.objeto == o.id|string %} selected{% endif %}>{{ o.codigo }} – {{ o.nome }}</option>
+                <option value="{{ o.id }}"{% if dados.objeto == o.id|string %} selected{% endif %}>{{ o.nome }} ({{ o.id }})</option>
             {% endfor %}
         </select>
         <small>Somente objetos ativos e disponíveis.</small>

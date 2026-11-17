@@ -10,13 +10,13 @@ from conftest import br, hoje
 @pytest.fixture
 def cadastro(bd):
     categoria = bd.criar_categoria("Livros")
-    return bd.criar_pessoa("Ana Souza"), bd.criar_objeto(categoria, "LIV001", "Dom Casmurro")
+    return bd.criar_pessoa("Ana Souza"), bd.criar_objeto(categoria, "Dom Casmurro")
 
 
 def incluir(tela, retirada, previsao):
     tela.abrir("emprestimos", acao="incluir")
     tela.escolher("pessoa", "Ana Souza (1)")
-    tela.escolher("objeto", "LIV001 – Dom Casmurro")
+    tela.escolher("objeto", "Dom Casmurro (1)")
     tela.preencher("data-retirada", retirada)
     tela.preencher("previsao-devolucao", previsao)
     tela.preencher("observacao", "Capa azul")

@@ -1,6 +1,7 @@
 """Conexão com o SQLite (RNF02). O banco fica em data/, fora dos arquivos servidos (RNF05)."""
 
 import os
+import re
 import sqlite3
 from contextlib import closing, contextmanager
 from pathlib import Path
@@ -33,7 +34,38 @@ def abrir(caminho: str) -> sqlite3.Connection:
 def criar_esquema(caminho: str) -> None:
     """Executa data/esquema.sql; IF NOT EXISTS mantém os dados existentes."""
     with closing(abrir(caminho)) as conexao:
+        remover_codigo_do_objeto(conexao)
         conexao.executescript(ESQUEMA.read_text(encoding="utf-8"))
+
+
+def remover_codigo_do_objeto(conexao: sqlite3.Connection) -> None:
+    """Migra bancos anteriores à R3, que têm a coluna objeto.codigo (o código deixou de ser usado).
+
+    Segue o procedimento do SQLite para alterar tabelas: cria a tabela nova pelo esquema atual,
+    copia os dados, apaga a antiga e renomeia, com as chaves estrangeiras desligadas e conferidas no fim.
+    """
+    colunas = [linha[1] for linha in conexao.execute("PRAGMA table_info(objeto)")]
+    if "codigo" not in colunas:
+        return
+    tabela = re.search(r"CREATE TABLE IF NOT EXISTS objeto \(.*?\n\);", ESQUEMA.read_text(encoding="utf-8"), re.S)
+    conexao.execute("PRAGMA foreign_keys = OFF")
+    try:
+        conexao.executescript(
+            "BEGIN;"
+            + tabela.group(0).replace("CREATE TABLE IF NOT EXISTS objeto (", "CREATE TABLE objeto_nova (")
+            + "INSERT INTO objeto_nova (id, nome, categoria_id, observacao, ativo)"
+              " SELECT id, nome, categoria_id, observacao, ativo FROM objeto;"
+              "DROP TABLE objeto;"
+              "ALTER TABLE objeto_nova RENAME TO objeto;")
+        if conexao.execute("PRAGMA foreign_key_check").fetchall():
+            raise sqlite3.IntegrityError("Referências inválidas depois de migrar a tabela objeto.")
+        conexao.execute("COMMIT")
+    except BaseException:
+        if conexao.in_transaction:
+            conexao.execute("ROLLBACK")
+        raise
+    finally:
+        conexao.execute("PRAGMA foreign_keys = ON")
 
 
 def iniciar(app) -> None:

@@ -23,7 +23,12 @@ CENARIOS = {
     "test_ct04_emprestimos": ("CT04", "Controlar empréstimos (RFS13 a RFS16)"),
     "test_ct05_regras_emprestimo": ("CT05", "Regras de empréstimo e devolução (RFS13 a RFS17 e RNF02)"),
     "test_ct06_datas": ("CT06", "Datas de retirada, previsão e devolução (RFS13, RFS14 e RFS17)"),
+    "test_ct07_pendencias": ("CT07", "Consultar pendências (RFS18)"),
+    "test_ct08_historico": ("CT08", "Consultar histórico (RFS19)"),
+    "test_ct09_interface": ("CT09", "Interface em português (RNF01)"),
     "test_ct10_integridade": ("CT10", "Persistência e integridade (RNF02)"),
+    "test_ct11_execucao_local": ("CT11", "Execução local, sem internet (RNF03)"),
+    "test_ct12_desempenho": ("CT12", "Tempo de resposta dos relatórios (RNF04)"),
     "test_ct13_protecao": ("CT13", "Validação e proteção (RNF05)"),
 }
 
@@ -68,6 +73,10 @@ def main(release: str) -> None:
         *[f"- {linha}" for linha in ambiente],
         "",
     ]
+    desempenho = SAIDA / "desempenho.txt"
+    if "test_ct12_desempenho" in grupos and desempenho.exists():
+        linhas += ["## Tempos medidos no CT12 (RNF04)", "",
+                   *[f"- {linha}" for linha in desempenho.read_text(encoding="utf-8").strip().splitlines()], ""]
     for modulo, casos in grupos.items():
         codigo, titulo = CENARIOS.get(modulo, ("—", modulo))
         ok = sum(1 for _, s, _, _ in casos if s == "Aprovado")

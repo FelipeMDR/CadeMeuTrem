@@ -5,7 +5,7 @@
     {{ campos.csrf() }}
     {{ campos.identificador(emprestimo.id) }}
     {{ campos.leitura('pessoa', 'Pessoa', emprestimo.pessoa ~ ' (' ~ emprestimo.pessoa_id ~ ')') }}
-    {{ campos.leitura('objeto', 'Objeto', emprestimo.codigo ~ ' – ' ~ emprestimo.objeto) }}
+    {{ campos.leitura('objeto', 'Objeto', emprestimo.objeto ~ ' (' ~ emprestimo.objeto_id ~ ')') }}
     {{ campos.leitura('data-retirada', 'Data da retirada', emprestimo.data_retirada | data) }}
     {% if emprestimo.data_devolucao %}
         {{ campos.leitura('data-devolucao', 'Data da devolução', emprestimo.data_devolucao | data) }}

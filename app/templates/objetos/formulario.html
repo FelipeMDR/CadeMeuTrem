@@ -5,13 +5,9 @@
     {{ campos.csrf() }}
     {{ campos.identificador(objeto.id if objeto else none) }}
     <div class="campo">
-        <label for="codigo">Código *</label>
-        <input type="text" class="curto" id="codigo" name="codigo" maxlength="{{ codigo_max }}" value="{{ dados.codigo }}">
-        <small>Um código por unidade física, como FUR001. Gravado em maiúsculas.</small>
-    </div>
-    <div class="campo">
         <label for="nome">Nome *</label>
         <input type="text" id="nome" name="nome" maxlength="{{ nome_max }}" value="{{ dados.nome }}">
+        <small>Cada unidade física tem cadastro próprio: duas furadeiras são dois objetos com o mesmo nome.</small>
     </div>
     <div class="campo">
         <label for="categoria">Categoria *</label>
