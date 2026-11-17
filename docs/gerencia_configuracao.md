@@ -49,12 +49,14 @@ Como o código e os documentos do Cadê Meu Trem? são versionados, revisados e 
 | `release-0` | Documentos de análise da R0 (DRE 2.0, EST, CRO, MRB, escopo, plano). | Entregue em 22/10/2026; versionada em 26/10/2026 |
 | `release1` | Pessoas e categorias em Python + Flask, testes CT01/CT02/CT13, DRE 3.1, EST, CRO e MRB atualizados. | 28/10/2026 |
 | `release2` | Objetos, empréstimos e devolução, testes CT03 a CT06, CT10 e CT13, proteção CSRF, DRE 3.2, MRB 2.2 e CRO v2.4. | 03/11/2026, antes da apresentação da R2 |
+| `release3` | Relatório de pendências e atrasos, objetos sem código (mudança #21), testes CT07, CT09 e CT12, DRE 3.3, MRB 2.3 e CRO v2.5. | 17/11/2026, após a revisão do PR da R3 |
 
 Para consultar uma baseline: `git switch --detach release-0`. Para voltar: `git switch main`.
 
 ## Controle de mudanças
 
-Toda mudança de escopo ou de tecnologia vira uma *issue* com o rótulo `mudança`. A issue registra os requisitos afetados e o impacto em
+Toda mudança de escopo ou de tecnologia vira uma *issue* com o rótulo `mudança` (exemplo:
+[#21](https://github.com/FelipeMDR/CadeMeuTrem/issues/21), objeto sem código, pedida pelo professor na R3). A issue registra os requisitos afetados e o impacto em
 esforço e prazo. Mudanças que afetam a entrega combinada são discutidas com o professor antes de entrar na branch em
 andamento (DRE, seção 5.1).
 
