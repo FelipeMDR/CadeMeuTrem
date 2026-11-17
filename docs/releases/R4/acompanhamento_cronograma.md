@@ -10,8 +10,8 @@ continuam pendentes de lançamento.
 | Release | Trabalho planejado | Atividades concluídas | Falta |
 |---|---|---|---|
 | R0 a R2 | 45 h | Todas | — |
-| R3 | 15 h | 13 h | A16.2 (revisão e tag `release3`) e A16.3 (demonstração) |
-| R4 | 16 h (15 h base + 1 h reserva) | 13 h | A20.1 (tag `release4`) e A20.2 (demonstração); reserva B04 não usada |
+| R3 | 15 h | 14 h | A16.3 (demonstração); A16.2 concluída com o PR #22 e a tag `release3` |
+| R4 | 16 h (15 h base + 1 h reserva) | 14 h | A20.2 (demonstração); A20.1 concluída com o PR #23 e a tag `release4`; reserva B04 não usada |
 
 ## Atividades da R4 concluídas em 17/11
 
