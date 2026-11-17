@@ -9,7 +9,7 @@ from . import categorias, datas, db, emprestimos, objetos, pessoas, protecao, re
 from .telas import pagina_nao_encontrada, sim_nao
 
 NOME_SISTEMA = "Cadê Meu Trem?"
-VERSAO_SISTEMA = "Release 3"
+VERSAO_SISTEMA = "Release 4"
 
 
 def create_app() -> Flask:
