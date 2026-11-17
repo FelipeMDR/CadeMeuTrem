@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<p class="obrigatorios">Empréstimos sem devolução em {{ hoje | data }}. Atrasado é o empréstimo aberto com previsão
+    anterior ao dia atual; vencer hoje não é atraso.</p>
+
+<form class="filtros" id="filtros" method="get" action="{{ url_for('relatorios.pendencias') }}">
+    <div class="campo">
+        <label for="filtro-pessoa">Pessoa</label>
+        <select id="filtro-pessoa" name="pessoa">
+            <option value="">Todas</option>
+            {% for p in pessoas %}
+                <option value="{{ p.id }}"{% if filtro.pessoa == p.id|string %} selected{% endif %}>{{ p.nome }} ({{ p.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-categoria">Categoria</label>
+        <select id="filtro-categoria" name="categoria">
+            <option value="">Todas</option>
+            {% for c in categorias %}
+                <option value="{{ c.id }}"{% if filtro.categoria == c.id|string %} selected{% endif %}>{{ c.nome }} ({{ c.id }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="campo">
+        <label for="filtro-atrasados">Somente atrasados</label>
+        <select id="filtro-atrasados" name="atrasados">
+            {% for valor, rotulo in [('0', 'Não'), ('1', 'Sim')] %}
+                <option value="{{ valor }}"{% if filtro.atrasados == valor %} selected{% endif %}>{{ rotulo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" id="pesquisar">Pesquisar</button>
+    <a class="botao secundario" id="limpar-filtros" href="{{ url_for('relatorios.pendencias') }}">Limpar</a>
+</form>
+
+{% if not linhas %}
+    <p class="vazio" id="vazio">Nenhuma pendência encontrada.</p>
+{% else %}
+    <table class="lista" id="lista">
+        <thead><tr><th>Identificador</th><th>Objeto</th><th>Categoria</th><th>Pessoa</th><th>Retirada</th><th>Previsão</th><th>Situação</th><th>Dias de atraso</th></tr></thead>
+        <tbody>
+        {% for e in linhas %}
+            <tr data-id="{{ e.id }}"{% if e.dias_atraso %} class="atrasado"{% endif %}>
+                <td class="col-id">{{ e.id }}</td>
+                <td class="col-objeto">{{ e.objeto }} ({{ e.objeto_id }})</td>
+                <td class="col-categoria">{{ e.categoria }}</td>
+                <td class="col-pessoa">{{ e.pessoa }}</td>
+                <td class="col-retirada">{{ e.data_retirada | data }}</td>
+                <td class="col-previsao">{{ e.previsao_devolucao | data }}</td>
+                <td class="col-situacao">{{ 'Atrasado' if e.dias_atraso else 'No prazo' }}</td>
+                <td class="col-dias">{{ e.dias_atraso }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+<p class="total" id="total">Empréstimos exibidos: {{ linhas | length }}</p>
+<p class="total" id="total-atrasados">Atrasados: {{ atrasados }}</p>
+{% endblock %}
