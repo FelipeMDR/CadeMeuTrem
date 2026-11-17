@@ -1,17 +1,19 @@
 # Acompanhamento do cronograma — R4, status em 17/11/2026
 
 Os valores abaixo estão em [`03_CRO_Cade_Meu_Trem.xml`](../../03_CRO_Cade_Meu_Trem.xml) (cronograma v2.6). A linha de
-base 0 (76 h), as datas planejadas, o trabalho e as atribuições da dupla (50% para cada integrante) foram preservados,
-como confirma a leitura do XML pelo MPXJ. O avanço comprovado fica no campo **% físico concluído**; as horas reais
+base 0 (76 h), as datas planejadas, o trabalho e os responsáveis por atividade foram preservados conforme o cronograma
+da R2, sem divisão igualitária de 50% por integrante. O `.pod` foi sincronizado e reaberto para validação em 17/11. O avanço comprovado fica no campo **% físico concluído**; as horas reais
 continuam pendentes de lançamento.
 
 ## Situação por release
 
 | Release | Trabalho planejado | Atividades concluídas | Falta |
 |---|---|---|---|
-| R0 a R2 | 45 h | Todas | — |
+| R0 a R2 | 45 h | 41 h | Atividades obrigatórias concluídas; 4 h das reservas B00 e B01 sem consumo registrado. |
 | R3 | 15 h | 14 h | A16.3 (demonstração); A16.2 concluída com o PR #22 e a tag `release3` |
 | R4 | 16 h (15 h base + 1 h reserva) | 14 h | A20.2 (demonstração); A20.1 concluída com o PR #23 e a tag `release4`; reserva B04 não usada |
+
+As horas de atividades concluídas representam seu peso no planejamento, não horas reais trabalhadas.
 
 ## Atividades da R4 concluídas em 17/11
 
@@ -41,8 +43,9 @@ A17 e A18 terminaram de 1 a 3 dias depois da linha de base; A19 terminou no praz
 As horas reais **não foram medidas**. A dupla deve lançar no ProjectLibre o tempo gasto em cada atividade; esse valor
 fecha o EVM da entrega final e a revisão da produtividade de 2 h/PCU da EST.
 
-## Como levar esta atualização para o arquivo .pod
+## Arquivo do ProjectLibre
 
-1. No ProjectLibre, abra `docs/03_CRO_Cade_Meu_Trem.xml` (**Arquivo › Abrir**).
-2. Confira a linha de base 0 e o **% físico concluído** das atividades acima.
-3. Use **Arquivo › Salvar como** e substitua `docs/03_CRO_Cade_Meu_Trem.pod`.
+O arquivo [`03_CRO_Cade_Meu_Trem.pod`](../../03_CRO_Cade_Meu_Trem.pod) está sincronizado com o XML v2.6.
+Foram conferidas as 99 linhas, a linha de base de 76 h, as datas planejadas, os custos, as atribuições e as colunas.
+A coluna **Avanço físico** mantém o progresso das atividades; os resumos indicam **ver subtarefas**. As demonstrações
+A16.3 e A20.2, os marcos M3 e M4 e o lançamento das horas reais continuam pendentes.

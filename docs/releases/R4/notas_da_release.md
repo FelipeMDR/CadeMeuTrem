@@ -32,7 +32,8 @@ RNF06) estão atendidos, como registram a seção 5 do DRE 3.4 e a MRB 2.4.
 ## Pendências para a dupla
 
 - [ ] Revisar os Pull Requests da R3 e da R4.
-- [ ] Abrir o XML v2.6 no ProjectLibre, salvar o `.pod` e lançar as horas reais.
+- [x] Sincronizar o `.pod` com o XML v2.6 (17/11), preservando linha de base, responsáveis e colunas.
+- [ ] Lançar as horas reais no ProjectLibre.
 - [x] Fazer o merge na `main` e criar as tags `release3` e `release4` (A16.2 e A20.1), em 17/11.
 - [ ] Demonstrar a R3 e a R4 (A16.3 e A20.2).
 - [ ] Regularizar a cobrança da conta no GitHub: a verificação automática dos testes (GitHub Actions) não está rodando.
