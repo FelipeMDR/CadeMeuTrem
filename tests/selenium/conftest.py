@@ -174,6 +174,11 @@ class Banco:
         with self._conectar() as c:
             return c.execute(sql, parametros).lastrowid
 
+    def executar_varios(self, sql: str, lista) -> None:
+        """Grava muitas linhas em uma só transação (massa de dados do CT12)."""
+        with self._conectar() as c:
+            c.executemany(sql, lista)
+
     def criar_pessoa(self, nome: str, ativo: int = 1) -> int:
         return self.executar("INSERT INTO pessoa (nome, ativo) VALUES (?, ?)", (nome, ativo))
 
@@ -269,7 +274,8 @@ class Tela:
         """Abre /pagina/[id/][acao] com os filtros na query string (ex.: /pessoas/?ativo=0)."""
         caminho = "/".join(str(parte) for parte in (pagina, id_, acao) if parte is not None)
         consulta = f"?{urllib.parse.urlencode(filtros)}" if filtros else ""
-        barra = "/" if acao is None and id_ is None else ""  # listas terminam em /, como /pessoas/
+        # Listas de cadastro terminam em /, como /pessoas/; relatórios não, como /relatorios/pendencias.
+        barra = "/" if acao is None and id_ is None and "/" not in pagina else ""
         self.ir(f"/{caminho}{barra}{consulta}")
 
     def elemento(self, id_: str):

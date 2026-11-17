@@ -8,13 +8,13 @@ from datetime import timedelta
 from conftest import br, hoje
 
 PARAMETROS_INVALIDOS = ("?ok=x&ok=y&ativo=talvez&ativo=1&nome=&nome=zz&categoria=abc&disponibilidade=quebrado"
-                        "&pessoa=-1&objeto=99999999999999999999&situacao=talvez")
+                        "&pessoa=-1&objeto=99999999999999999999&situacao=talvez&atrasados=talvez")
 
 
 def test_rnf05_parametros_repetidos_ou_invalidos_sao_ignorados(tela, bd):
     bd.executar("INSERT INTO pessoa (nome) VALUES ('Olga Reis')")
-    for pagina in ("pessoas", "categorias", "objetos", "emprestimos"):
-        tela.ir(f"/{pagina}/{PARAMETROS_INVALIDOS}")
+    for pagina in ("pessoas/", "categorias/", "objetos/", "emprestimos/", "relatorios/pendencias"):
+        tela.ir(f"/{pagina}{PARAMETROS_INVALIDOS}")
         assert tela.existe("filtros"), f"a consulta de {pagina} não foi exibida"
         assert tela.mensagem() == ""
     tela.abrir("pessoas", ativo="talvez")
